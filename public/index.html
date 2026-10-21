@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" data-app-experience="standard">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="theme-color" content="#10213d">
+  <meta name="description" content="Progress XP - Your personal growth workspace for tasks, habits, daily missions, achievements, and community.">
+  <meta name="author" content="Abdul Cizen Siddiqui">
+  <title>Progress XP — Real Life RPG Growth Workspace</title>
+
+  <!-- PWA Manifest & App Icons -->
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+
+  <!-- Core Design Tokens & Styles -->
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/themes.css">
+  <link rel="stylesheet" href="css/nav.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/habits.css">
+  <link rel="stylesheet" href="css/missions.css">
+  <link rel="stylesheet" href="css/shop.css">
+  <link rel="stylesheet" href="css/achievements.css">
+  <link rel="stylesheet" href="css/modules.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/aura.css">
+</head>
+<body class="theme-default">
+
+  <!-- Cyberpunk Background & Cursor Glow -->
+  <div class="site-bg-layer" id="siteBgLayer"></div>
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- Mobile Topbar -->
+  <header class="mobile-topbar">
+    <div style="display: flex; align-items: center; gap: 10px;">
+      <div class="brand-mark" style="width: 32px; height: 32px; font-size: 11px;">XP</div>
+      <b style="font-size: 15px; color: #fff;">Progress XP</b>
+    </div>
+    <button class="btn secondary sm" id="mobileMenuBtn" aria-label="Open menu">
+      ☰ Menu
+    </button>
+  </header>
+
+  <!-- Main App Layout Shell -->
+  <div class="app-layout" id="appLayout">
+    <!-- Desktop Sidebar Rail & Drawer -->
+    <aside class="app-sidebar" id="appSidebar"></aside>
+
+    <!-- Main Dynamic Content Workspace -->
+    <main class="main-content" id="appMain" role="main"></main>
+  </div>
+
+  <!-- Mobile Bottom Navigation Bar -->
+  <nav class="mobile-bottom-nav" id="mobileBottomNav">
+    <a href="#" class="mobile-nav-btn active" data-nav="dashboard">
+      <i>📊</i>
+      <span>Dashboard</span>
+    </a>
+    <a href="#" class="mobile-nav-btn" data-nav="mission">
+      <i>🎯</i>
+      <span>Missions</span>
+    </a>
+    <a href="#" class="mobile-nav-btn" data-nav="habits">
+      <i>⚡</i>
+      <span>Habits</span>
+    </a>
+    <a href="#" class="mobile-nav-btn" data-nav="shop">
+      <i>💎</i>
+      <span>Shop</span>
+    </a>
+    <a href="#" class="mobile-nav-btn" data-nav="achievements">
+      <i>🏆</i>
+      <span>Vault</span>
+    </a>
+  </nav>
+
+  <!-- Global Footer Credit (As Extracted from Source) -->
+  <footer class="app-creator-footer">
+    Progress XP • Created by Abdul Cizen Siddiqui • Reverse Engineered with REA & GhidraMCP
+  </footer>
+
+  <!-- Modular Scripts -->
+  <script src="js/store.js"></script>
+  <script src="js/components/audio.js"></script>
+  <script src="js/components/nav.js"></script>
+  <script src="js/components/auth.js"></script>
+  <script src="js/components/dashboard.js"></script>
+  <script src="js/components/habits.js"></script>
+  <script src="js/components/missions.js"></script>
+  <script src="js/components/shop.js"></script>
+  <script src="js/components/achievements.js"></script>
+  <script src="js/components/leaderboard.js"></script>
+  <script src="js/components/library.js"></script>
+  <script src="js/components/finance.js"></script>
+  <script src="js/components/community.js"></script>
+  <script src="js/components/admin.js"></script>
+  <script src="js/components/aura.js"></script>
+  <script src="js/components/avatars.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+/* Progress XP Admin Studio */
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.admin-rail {
+  padding: 14px;
+  background: linear-gradient(180deg, rgba(14, 31, 55, 0.95), rgba(7, 17, 29, 0.95));
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--card-border);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.admin-nav-item {
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-nav-item:hover {
+  background: rgba(143, 183, 255, 0.08);
+  color: var(--text-main);
+}
+
+.admin-nav-item.active {
+  background: rgba(103, 232, 249, 0.12);
+  border-color: rgba(103, 232, 249, 0.3);
+  color: #dffbff;
+}
+
+/* User Directory Card */
+.admin-user-card {
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-md);
+  background: linear-gradient(145deg, rgba(24, 43, 73, 0.7), rgba(9, 23, 42, 0.8));
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.admin-user-meta b {
+  font-size: 14px;
+  color: #fff;
+  display: block;
+}
+
+.admin-user-meta small {
+  font-size: 11px;
+  color: var(--text-muted);
+}

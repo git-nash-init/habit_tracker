@@ -1,0 +1,81 @@
+/* Progress XP Floating AURA Companion Orb */
+
+.aura-container {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+@media (max-width: 900px) {
+  .aura-container {
+    right: 16px;
+    bottom: 74px;
+  }
+}
+
+.aura-orb-btn {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #67e8f9, #0284c7);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 0 24px rgba(103, 232, 249, 0.5), 0 8px 24px rgba(0, 0, 0, 0.4);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: #04101e;
+  font-weight: 900;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  animation: auraFloat 4s ease-in-out infinite alternate;
+  transition: transform var(--transition-fast);
+}
+
+.aura-orb-btn:hover {
+  transform: scale(1.08);
+}
+
+@keyframes auraFloat {
+  0% { transform: translateY(0); box-shadow: 0 0 20px rgba(103, 232, 249, 0.4); }
+  100% { transform: translateY(-6px); box-shadow: 0 0 32px rgba(103, 232, 249, 0.8); }
+}
+
+.aura-popup-panel {
+  width: 320px;
+  background: linear-gradient(155deg, rgba(14, 31, 55, 0.98), rgba(7, 17, 29, 0.98));
+  border: 1px solid var(--card-border-glow);
+  border-radius: var(--radius-lg);
+  padding: 18px 20px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.aura-popup-panel.open {
+  display: flex;
+}
+
+.aura-popup-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.aura-popup-head b {
+  font-size: 13px;
+  color: var(--accent-cyan);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.aura-popup-body {
+  font-size: 13px;
+  color: var(--text-main);
+  line-height: 1.45;
+}

@@ -1,0 +1,55 @@
+/* Progress XP Reward Vault & Shop */
+
+.shop-balance-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(7, 17, 29, 0.85));
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  border-radius: var(--radius-lg);
+  margin-bottom: 24px;
+}
+
+.shop-coin-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: rgba(245, 158, 11, 0.2);
+  border: 1px solid rgba(245, 158, 11, 0.5);
+  border-radius: var(--radius-pill);
+  font-size: 20px;
+  font-weight: 900;
+  color: #fef3c7;
+  box-shadow: 0 0 16px rgba(245, 158, 11, 0.3);
+}
+
+.rewards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.reward-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 200px;
+  background: linear-gradient(145deg, #0e1e35, #081324);
+}
+
+.reward-card-icon {
+  font-size: 36px;
+  margin-bottom: 10px;
+}
+
+.reward-cost-tag {
+  font-weight: 800;
+  font-size: 14px;
+  color: #fbbf24;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}

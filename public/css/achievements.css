@@ -1,0 +1,133 @@
+/* Progress XP Achievement Vault & Leaderboard */
+
+.achievement-hero {
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(103, 232, 249, 0.25);
+  background: radial-gradient(circle at 10% 10%, rgba(103, 232, 249, 0.14), transparent 30%),
+              radial-gradient(circle at 90% 10%, rgba(168, 85, 247, 0.16), transparent 35%),
+              linear-gradient(145deg, #091326, #0d122b);
+  margin-bottom: 24px;
+}
+
+.achievement-progress-orb {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: conic-gradient(var(--accent-cyan) var(--pct, 65%), rgba(255, 255, 255, 0.08) 0);
+  position: relative;
+  box-shadow: 0 0 30px rgba(103, 232, 249, 0.2);
+}
+
+.achievement-progress-orb::before {
+  content: "";
+  position: absolute;
+  inset: 8px;
+  border-radius: 50%;
+  background: #091326;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.achievement-orb-text {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+}
+
+.achievement-orb-text b {
+  font-size: 20px;
+  color: #fff;
+  line-height: 1;
+}
+
+.achievement-orb-text span {
+  font-size: 8px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  font-weight: 800;
+  display: block;
+}
+
+/* Tiered Cards */
+.achievement-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 14px;
+}
+
+.achievement-card {
+  padding: 16px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.achievement-card.unlocked {
+  border-color: rgba(103, 232, 249, 0.35);
+  background: linear-gradient(145deg, rgba(103, 232, 249, 0.06), rgba(255, 255, 255, 0.02));
+}
+
+.tier-badge {
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 3px 6px;
+  border-radius: 4px;
+  display: inline-block;
+  margin-top: 4px;
+}
+
+.tier-uncommon { color: #34d399; background: rgba(16, 185, 129, 0.15); }
+.tier-rare { color: #38bdf8; background: rgba(56, 189, 248, 0.15); }
+.tier-epic { color: #c084fc; background: rgba(168, 85, 247, 0.15); }
+.tier-legendary { color: #fbbf24; background: rgba(245, 158, 11, 0.15); }
+.tier-mythic { color: #f43f5e; background: rgba(244, 63, 94, 0.15); }
+.tier-transcendent { color: #67e8f9; background: linear-gradient(90deg, rgba(103, 232, 249, 0.3), rgba(192, 132, 252, 0.3)); }
+
+/* Leaderboard Table */
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.leaderboard-table th {
+  padding: 12px 16px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--card-border);
+  text-align: left;
+}
+
+.leaderboard-table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid rgba(138, 181, 238, 0.08);
+  font-size: 13px;
+}
+
+.leaderboard-table tr.current-user-row {
+  background: rgba(103, 232, 249, 0.06);
+  border: 1px solid rgba(103, 232, 249, 0.3);
+}
+
+.leaderboard-streak-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background: rgba(245, 158, 11, 0.12);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  font-weight: 800;
+  font-size: 12px;
+  color: #fbbf24;
+}

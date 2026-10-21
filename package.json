@@ -1,0 +1,19 @@
+{
+  "name": "progress-xp-growth-app",
+  "version": "17.10.416",
+  "description": "Progress XP - Complete Personal Growth System reverse engineered with REA and GhidraMCP",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node test.cjs"
+  },
+  "keywords": [
+    "habit-tracker",
+    "personal-growth",
+    "gamification",
+    "rpg",
+    "productivity"
+  ],
+  "author": "Abdul Cizen Siddiqui / Built with Antigravity",
+  "license": "MIT"
+}

@@ -1,0 +1,71 @@
+/* Progress XP Missions, Quests & Timed Challenges */
+
+.mission-hero {
+  padding: 24px;
+  background: radial-gradient(circle at 10% 20%, rgba(56, 189, 248, 0.12), transparent 40%),
+              linear-gradient(145deg, #0d1e35, #0a1729);
+  border: 1px solid var(--card-border-glow);
+  margin-bottom: 20px;
+}
+
+.mission-hero-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.mission-hero h2 {
+  font-size: 24px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin: 6px 0;
+}
+
+.mission-hero p {
+  font-size: 13px;
+  color: var(--text-muted);
+  max-width: 650px;
+}
+
+/* Timed Sprint Widget */
+.timed-mission-box {
+  background: linear-gradient(135deg, rgba(168, 85, 247, 0.12), rgba(56, 189, 248, 0.08));
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.timer-digits {
+  font-family: var(--font-mono);
+  font-size: 36px;
+  font-weight: 900;
+  color: #f3e8ff;
+  letter-spacing: 0.05em;
+  text-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+}
+
+.mission-card-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 14px;
+}
+
+.mission-card {
+  padding: 18px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 140px;
+}
+
+.mission-card.completed {
+  border-color: rgba(16, 185, 129, 0.4);
+  background: linear-gradient(145deg, rgba(16, 185, 129, 0.08), rgba(7, 17, 29, 0.8));
+}

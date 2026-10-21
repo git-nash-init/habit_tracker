@@ -1,0 +1,168 @@
+/* Progress XP Modules: Library, Finance, Community, Avatars */
+
+/* Growth Library */
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.book-card {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 220px;
+}
+
+.book-card h3 {
+  font-size: 17px;
+  font-weight: 800;
+  margin-bottom: 4px;
+}
+
+.book-card .author {
+  font-size: 12px;
+  color: var(--accent-cyan);
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.book-takeaway {
+  font-style: italic;
+  font-size: 11px;
+  color: var(--text-muted);
+  border-left: 2px solid var(--accent-purple);
+  padding-left: 8px;
+  margin: 10px 0;
+}
+
+/* Personal Finance Ledger */
+.finance-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+  .finance-summary-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.finance-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.finance-table th {
+  padding: 10px 14px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--card-border);
+  text-align: left;
+}
+
+.finance-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(138, 181, 238, 0.08);
+  font-size: 13px;
+}
+
+.amount-income {
+  color: #34d399;
+  font-weight: 800;
+}
+
+.amount-expense {
+  color: #f87171;
+  font-weight: 800;
+}
+
+/* Community Feed */
+.community-composer {
+  padding: 16px;
+  background: var(--bg-card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 20px;
+}
+
+.community-post {
+  padding: 18px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  margin-bottom: 14px;
+}
+
+.post-head {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.post-author-name {
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.post-actions {
+  display: flex;
+  gap: 16px;
+  margin-top: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.like-btn {
+  background: transparent;
+  border: 0;
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.like-btn:hover {
+  color: var(--accent-rose);
+}
+
+/* Avatar Vault */
+.avatar-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+  gap: 14px;
+}
+
+.avatar-choice-card {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--card-border);
+  background: rgba(255, 255, 255, 0.02);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.avatar-choice-card:hover, .avatar-choice-card.selected {
+  border-color: var(--accent-cyan);
+  background: rgba(103, 232, 249, 0.08);
+  box-shadow: 0 0 16px rgba(103, 232, 249, 0.2);
+}
+
+.avatar-big-icon {
+  font-size: 38px;
+}
