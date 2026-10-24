@@ -1,4 +1,46 @@
+# Dependencies
 node_modules/
+.pnp
+.pnp.js
+
+# Local environment & secrets
+.env
+.env.local
+.env.*.local
+*.env
+*.local
+
+# AI tools & agent artifacts
+.gemini/
+.agents/
+.antigravity/
+.system_generated/
 scratch/
-*.log
+temp/
+tmp/
+*.tmp
+
+# IDEs and Editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+.cursor/
+
+# OS files
 .DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs & debugging
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test coverage & build artifacts
+coverage/
+.nyc_output/
+dist/
+build/
