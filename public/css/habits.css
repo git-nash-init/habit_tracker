@@ -123,3 +123,135 @@
   font-size: 12px;
   color: var(--text-muted);
 }
+
+/* Authentic Production Habit Summary & Combined Graph */
+.habit-summary {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.habit-combined-graph {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+  align-items: end;
+  height: 190px;
+  padding: 16px;
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(91, 139, 231, 0.08), rgba(91, 139, 231, 0.015));
+  border: 1px solid rgba(124, 171, 231, 0.14);
+}
+
+.habit-combined-day {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+}
+
+.habit-combined-day i {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: 130px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 9px;
+}
+
+.habit-combined-day i b {
+  display: block;
+  width: 100%;
+  min-height: 10px;
+  height: var(--habit-bar, 12%);
+  border-radius: 12px;
+  background: linear-gradient(180deg, #7af0d0, #7089ff);
+  box-shadow: 0 10px 24px rgba(80, 163, 235, 0.18);
+}
+
+.habit-combined-day strong {
+  font-size: 12px;
+  color: #fff;
+}
+
+.habit-combined-day span {
+  font-size: 10px;
+  color: var(--text-muted, #94a3b8);
+}
+
+.habit-summary-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.habit-summary-stats .mini {
+  padding: 16px;
+  border: 1px solid rgba(124, 171, 231, 0.16);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.habit-summary-stats .mini b {
+  display: block;
+  font-size: 28px;
+  line-height: 1.05;
+  color: #fff;
+  font-weight: 800;
+}
+
+.habit-summary-stats .mini span {
+  display: block;
+  font-size: 11px;
+  color: var(--text-muted, #94a3b8);
+  margin-top: 4px;
+}
+
+/* Fallback Habit Modal Styles */
+.modal-card {
+  width: min(520px, 92vw);
+  background: radial-gradient(circle at 100% 0, rgba(103, 232, 249, 0.14), transparent 40%),
+              radial-gradient(circle at 0 100%, rgba(168, 85, 247, 0.12), transparent 40%),
+              linear-gradient(150deg, #09172e, #130a24);
+  border: 1px solid rgba(103, 232, 249, 0.4);
+  border-radius: 24px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(34, 211, 238, 0.15);
+  padding: 24px;
+  position: relative;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.field label {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #67e8f9;
+}
+
+.field input, .field select, .field textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(3, 10, 20, 0.85);
+  border: 1px solid rgba(124, 232, 255, 0.22);
+  color: #fff;
+  font-family: inherit;
+  font-size: 13px;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: #50e5ed;
+  box-shadow: 0 0 14px rgba(80, 229, 237, 0.25);
+}

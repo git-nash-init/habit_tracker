@@ -90,33 +90,36 @@
 
       <!-- Add Habit Modal -->
       <div class="modal-overlay" id="addHabitModal">
-        <div class="modal-card">
+        <div class="modal-box">
           <div class="modal-head">
-            <h3>Forge a New Habit</h3>
-            <button class="btn secondary sm" id="closeAddHabitBtn">✕</button>
+            <div>
+              <small>FORGE · ATOMIC HABIT</small>
+              <h3 style="margin: 4px 0 0; color: #fff; font-size: 20px; font-weight: 800;">Forge a New Habit</h3>
+            </div>
+            <button type="button" class="modal-close-btn" id="closeAddHabitBtn" aria-label="Close modal">×</button>
           </div>
           <form id="addHabitForm">
-            <div class="field">
-              <label>Habit Name</label>
-              <input type="text" id="habitNameInput" placeholder="e.g. Read 15 mins before bed" required>
+            <div class="form-group">
+              <label for="habitNameInput">Habit Name</label>
+              <input type="text" id="habitNameInput" class="form-input" placeholder="e.g. Read 15 mins before bed" required autocomplete="off">
             </div>
-            <div class="field">
-              <label>Category</label>
-              <select id="habitCategoryInput">
-                <option value="Health">Health & Vitality</option>
-                <option value="Fitness">Physical Fitness</option>
-                <option value="Productivity">Deep Focus & Productivity</option>
-                <option value="Mindset">Mindset & Stoicism</option>
-                <option value="Wisdom">Wisdom & Books</option>
+            <div class="form-group">
+              <label for="habitCategoryInput">Category</label>
+              <select id="habitCategoryInput" class="form-select">
+                <option value="Health & Vitality" selected>Health & Vitality</option>
+                <option value="Physical Fitness">Physical Fitness</option>
+                <option value="Deep Focus & Productivity">Deep Focus & Productivity</option>
+                <option value="Mindset & Stoicism">Mindset & Stoicism</option>
+                <option value="Wisdom & Books">Wisdom & Books</option>
               </select>
             </div>
-            <div class="field">
-              <label>Habit Rules / Notes</label>
-              <textarea id="habitNotesInput" rows="2" placeholder="Specific triggers or environment design rules..."></textarea>
+            <div class="form-group">
+              <label for="habitNotesInput">Habit Rules / Notes</label>
+              <textarea id="habitNotesInput" class="form-input" rows="3" placeholder="Specific triggers or environment design rules..."></textarea>
             </div>
-            <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px;">
-              <button type="button" class="btn secondary sm" id="cancelAddHabit">Cancel</button>
-              <button type="submit" class="btn sm">Forge Habit (+20 XP)</button>
+            <div class="modal-footer">
+              <button type="button" class="btn-secondary" id="cancelAddHabit">Cancel</button>
+              <button type="submit" class="btn-primary">Forge Habit (+20 XP)</button>
             </div>
           </form>
         </div>
@@ -144,15 +147,26 @@
     const form = container.querySelector('#addHabitForm');
 
     if (openBtn && modal) {
-      openBtn.addEventListener('click', () => modal.classList.add('open'));
+      openBtn.addEventListener('click', () => {
+        modal.classList.add('open');
+        if (window.ProgressXPSound) window.ProgressXPSound.play('open');
+        const input = container.querySelector('#habitNameInput');
+        if (input) setTimeout(() => input.focus(), 100);
+      });
     }
 
     if (closeBtn && modal) {
-      closeBtn.addEventListener('click', () => modal.classList.remove('open'));
+      closeBtn.addEventListener('click', () => {
+        modal.classList.remove('open');
+        if (window.ProgressXPSound) window.ProgressXPSound.play('close');
+      });
     }
 
     if (cancelBtn && modal) {
-      cancelBtn.addEventListener('click', () => modal.classList.remove('open'));
+      cancelBtn.addEventListener('click', () => {
+        modal.classList.remove('open');
+        if (window.ProgressXPSound) window.ProgressXPSound.play('close');
+      });
     }
 
     if (form) {
@@ -164,7 +178,7 @@
         window.ProgressXPStore.addHabit(name, cat, notes);
         modal.classList.remove('open');
         form.reset();
-        if (window.ProgressXPAudio) window.ProgressXPAudio.playTaskComplete();
+        if (window.ProgressXPSound) window.ProgressXPSound.play('complete');
       });
     }
 

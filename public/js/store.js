@@ -133,8 +133,50 @@
       { rank: 4, name: 'Sophia Chen', tier: 'Gold Vanguard', streak: 12, totalXp: 8900, avatar: '🌟' }
     ],
     library: [
-      { id: 'b1', title: 'Atomic Habits', author: 'James Clear', category: 'Habits & Systems', progress: 68, totalPages: 320, summary: 'Tiny changes lead to remarkable results. Systems > Goals.' },
-      { id: 'b2', title: 'Deep Work', author: 'Cal Newport', category: 'Focus & Mastery', progress: 45, totalPages: 296, summary: 'Rules for focused success in a distracted world.' }
+      { 
+        id: 'b1', 
+        title: 'Atomic Habits', 
+        author: 'James Clear', 
+        category: 'Habits & Systems', 
+        duration: '18 min read',
+        summary: 'Tiny changes lead to remarkable results. Systems > Goals.',
+        keyTakeaway: 'You do not rise to the level of your goals. You fall to the level of your systems.',
+        readPercent: 68,
+        pages: '320 pages'
+      },
+      { 
+        id: 'b2', 
+        title: 'Deep Work', 
+        author: 'Cal Newport', 
+        category: 'Focus & Mastery', 
+        duration: '22 min read',
+        summary: 'Rules for focused success in a distracted world.',
+        keyTakeaway: 'Clarity about what matters provides clarity about what does not.',
+        readPercent: 45,
+        pages: '296 pages'
+      },
+      { 
+        id: 'b3', 
+        title: 'The Psychology of Money', 
+        author: 'Morgan Housel', 
+        category: 'Finance & Mindset', 
+        duration: '16 min read',
+        summary: 'Doing well with money is about behavior and patience.',
+        keyTakeaway: 'Spending money to show people how much money you have is the fastest way to have less money.',
+        readPercent: 82,
+        pages: '256 pages'
+      },
+      { 
+        id: 'b4', 
+        title: 'Can’t Hurt Me', 
+        author: 'David Goggins', 
+        category: 'Resilience & Drive', 
+        duration: '25 min read',
+        summary: 'Master your mind and defy the odds through self-discipline.',
+        keyTakeaway: 'The 40% rule: when your mind says you are done, you are really only 40% done.',
+        readPercent: 90,
+        pages: '364 pages'
+      }
     ],
     finance: {
       summary: { income: 4500, expenses: 1850, savingsRate: 59 },
@@ -316,7 +358,28 @@
       const habit = state.habits.find(h => h.id === habitId);
       if (!habit) return;
       habit.weekDays[dayIndex] = habit.weekDays[dayIndex] ? 0 : 1;
+      saveState();
       notify();
+    },
+
+    addHabit(name, category, notes) {
+      const newHabit = {
+        id: 'h_' + Date.now(),
+        name: name.trim(),
+        category: category || 'Health & Vitality',
+        notes: notes ? notes.trim() : '',
+        streak: 1,
+        consistency: 100,
+        weekDays: [0, 0, 0, 0, 0, 0, 1]
+      };
+      state.habits.unshift(newHabit);
+      // Award 20 XP for forging a new habit
+      state.user.totalXp += 20;
+      state.user.xpToday += 20;
+      state.auth.user.xp = state.user.totalXp;
+      saveState();
+      notify();
+      return newHabit;
     },
 
     resetAll() {

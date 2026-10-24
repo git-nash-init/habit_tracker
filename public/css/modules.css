@@ -1,40 +1,112 @@
 /* Progress XP Modules: Library, Finance, Community, Avatars */
 
-/* Growth Library */
-.library-grid {
+/* Growth Library - Authentic Production Surface */
+.library-shell {
+  display: grid;
+  gap: 18px;
+  padding: clamp(16px, 2.5vw, 28px);
+  border: 1px solid rgba(118, 170, 255, 0.28);
+  border-radius: 28px;
+  background: linear-gradient(145deg, #0d1930 0%, #101f3b 52%, #0a152a 100%);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.45);
+}
+
+.library-hero {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  background: linear-gradient(135deg, rgba(56, 99, 224, 0.25), rgba(19, 28, 57, 0.8));
+  border-radius: 20px;
+  padding: 24px 28px;
+  border: 1px solid rgba(124, 171, 231, 0.22);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
+}
+
+.library-count {
+  text-align: center;
+  min-width: 120px;
+  padding: 12px 18px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(124, 171, 231, 0.2);
+}
+
+.library-count b {
+  display: block;
+  font-size: 38px;
+  color: #7af0d0;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.category-shelf {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding: 4px 2px 8px;
+  scrollbar-width: thin;
+}
+
+.book-category {
+  white-space: nowrap;
+  padding: 9px 16px;
+  border: 1px solid rgba(124, 171, 231, 0.2);
+  border-radius: 12px;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.03);
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.book-category span {
+  opacity: 0.65;
+  font-size: 11px;
+}
+
+.book-category:hover {
+  background: rgba(56, 99, 224, 0.35);
+  border-color: #60a5fa;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.book-category.active {
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  border-color: #93c5fd;
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.4);
+}
+
+.book-shelf {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+  gap: 20px;
 }
 
 .book-card {
-  padding: 20px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  min-height: 220px;
+  min-height: 230px;
+  padding: 22px;
+  background: radial-gradient(circle at 100% 0, rgba(103, 232, 249, 0.06), transparent 50%), rgba(11, 23, 44, 0.85);
+  border: 1px solid rgba(124, 171, 231, 0.18);
+  border-radius: 20px;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
-.book-card h3 {
-  font-size: 17px;
-  font-weight: 800;
-  margin-bottom: 4px;
-}
-
-.book-card .author {
-  font-size: 12px;
-  color: var(--accent-cyan);
-  font-weight: 700;
-  margin-bottom: 10px;
-}
-
-.book-takeaway {
-  font-style: italic;
-  font-size: 11px;
-  color: var(--text-muted);
-  border-left: 2px solid var(--accent-purple);
-  padding-left: 8px;
-  margin: 10px 0;
+.book-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(103, 232, 249, 0.55);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), 0 0 25px rgba(80, 229, 237, 0.15);
 }
 
 /* Personal Finance Ledger */
