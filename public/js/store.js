@@ -1,858 +1,330 @@
-/**
- * Progress XP - Central Reactive State Store & Persistence
- * Reverse-Engineered from Progress XP Core Runtime v17.10.416
- */
-
-(function (window) {
+// Progress XP Production Reactive Store
+(function() {
   'use strict';
 
-  const STORAGE_KEY = 'progressxp_app_state_v1710416';
+  const STORAGE_KEY = 'progressxp_store_v1710';
 
   const DEFAULT_STATE = {
-    auth: {
-      isLoggedIn: true, // Default to demo user for instantaneous interactive exploration
-      user: {
-        id: 'usr_7430faf6',
-        username: 'AlexGrowth',
-        name: 'Alex Hunter',
-        email: 'alex@progressxp.app',
-        phone: '+91 98765 43210',
-        role: 'admin', // Grants access to Admin Studio
-        level: 14,
-        xp: 4850,
-        next_level_xp: 5500,
-        coins: 680,
-        streak: 14,
-        best_streak: 31,
-        rank: 'Diamond',
-        rank_tier: 'IV',
-        rank_prefix: 'RANK',
-        rank_number: '14',
-        title: 'Master Habit Architect',
-        avatar: 'cyborg_neon',
-        joined_date: '2026-01-15'
-      }
-    },
-    settings: {
-      appExperience: 'standard', // 'standard' | 'clutter_free'
-      soundEnabled: true,
-      musicDockOpen: false,
-      ambientPlaying: false,
-      bgOpacity: 0.94,
-      bgBlur: 0.5,
-      bgBrightness: 1.8,
-      selectedTab: 'dashboard'
-    },
-    dashboard: {
-      greeting: 'Focus on the execution today.',
-      weather: { temp: '26°C', condition: 'Clear Sky', icon: '☀️' },
-      goal_pct: 75,
-      life_status: {
-        physical: 85,
-        mental: 90,
-        financial: 78,
-        skill: 92,
-        social: 65
+    user: {
+      name: 'Mehul Palan',
+      title: 'Starter',
+      totalXp: 0,
+      xpToday: 0,
+      coins: 0,
+      level: 1,
+      xpToNextLevel: 100,
+      streakDays: 0,
+      focusedTodayMinutes: 0,
+      attributes: {
+        vitality: 25,
+        focus: 30,
+        discipline: 20,
+        mastery: 15,
+        wisdom: 20
       }
     },
     tasks: [
       {
-        id: 'task_1',
-        title: 'Complete deep work block (90 mins without distractions)',
-        category: 'Focus',
-        xp: 45,
+        id: 'task_review',
+        title: '2-minute day review',
+        desc: 'Mark what moved forward and decide the first action for tomorrow.',
+        priority: 1,
+        category: 'Starter',
+        recurrence: 'Daily',
+        xp: 50,
+        coins: 5,
+        durationMinutes: 3,
+        scheduledTime: '11:00 AM',
+        paceStatus: 'behind',
+        done: false
+      },
+      {
+        id: 'task_block',
+        title: 'One focused work block',
+        desc: 'Give one important task 30 minutes of undivided attention.',
+        priority: 2,
+        category: 'Starter',
+        recurrence: 'Daily',
+        xp: 200,
         coins: 20,
-        minutes: 90,
-        done: true,
-        completedAt: new Date(Date.now() - 3600000).toISOString()
+        durationMinutes: 30,
+        scheduledTime: '3:00 PM',
+        paceStatus: 'behind',
+        done: false
       },
       {
-        id: 'task_2',
-        title: 'Morning workout & mobility routine',
-        category: 'Health',
-        xp: 35,
-        coins: 15,
-        minutes: 45,
-        done: true,
-        completedAt: new Date(Date.now() - 7200000).toISOString()
-      },
-      {
-        id: 'task_3',
-        title: 'Review weekly progress and update habit tracker metrics',
-        category: 'Growth',
-        xp: 25,
+        id: 'task_top3',
+        title: "Plan today's top 3",
+        desc: 'Choose the three things that would make today feel genuinely productive.',
+        priority: 3,
+        category: 'Starter',
+        recurrence: 'Daily',
+        xp: 100,
         coins: 10,
-        minutes: 20,
-        done: false,
-        completedAt: null
-      },
-      {
-        id: 'task_4',
-        title: 'Read 20 pages of "Atomic Habits" and record takeaways',
-        category: 'Learning',
-        xp: 30,
-        coins: 15,
-        minutes: 30,
-        done: false,
-        completedAt: null
-      },
-      {
-        id: 'task_5',
-        title: 'Log daily expenses in Personal Finance ledger',
-        category: 'Finance',
-        xp: 20,
-        coins: 10,
-        minutes: 10,
-        done: false,
-        completedAt: null
+        durationMinutes: 10,
+        scheduledTime: '7:00 PM',
+        paceStatus: 'next',
+        done: false
       }
     ],
-    habits: [
-      {
-        id: 'h_1',
-        name: 'Morning Cold Water & Hydration',
-        category: 'Health',
-        streak: 18,
-        consistency: 94,
-        notes: 'Drink 750ml water immediately upon waking.',
-        // Array of 7 days (Mon-Sun): 1=completed, 0=not completed
-        weekDays: [1, 1, 1, 1, 1, 1, 1]
-      },
-      {
-        id: 'h_2',
-        name: 'Daily 45-Min Physical Exercise',
-        category: 'Fitness',
-        streak: 14,
-        consistency: 88,
-        notes: 'Mix of HIIT, weight training, and mobility.',
-        weekDays: [1, 1, 1, 1, 1, 1, 0]
-      },
-      {
-        id: 'h_3',
-        name: 'No Phone First 30 Mins After Wakeup',
-        category: 'Mindset',
-        streak: 9,
-        consistency: 82,
-        notes: 'Keep morning brain clear of external noise.',
-        weekDays: [1, 1, 1, 1, 1, 0, 1]
-      },
-      {
-        id: 'h_4',
-        name: 'Deep Work Flow State (Zero Alt-Tab)',
-        category: 'Productivity',
-        streak: 12,
-        consistency: 91,
-        notes: 'Use timer and focus music.',
-        weekDays: [1, 1, 1, 1, 1, 1, 0]
-      },
-      {
-        id: 'h_5',
-        name: 'Read 20+ Pages Daily',
-        category: 'Wisdom',
-        streak: 21,
-        consistency: 96,
-        notes: 'Non-fiction books on mindset and tech.',
-        weekDays: [1, 1, 1, 1, 1, 1, 1]
-      },
-      {
-        id: 'h_6',
-        name: 'Evening Journal & Tomorrow Planning',
-        category: 'Mindset',
-        streak: 8,
-        consistency: 79,
-        notes: 'Reflect on 3 wins and write top 3 priorities.',
-        weekDays: [1, 1, 1, 1, 0, 1, 0]
+    activeTab: 'home',
+    simpleMode: false,
+    auth: {
+      isLoggedIn: true,
+      user: {
+        username: 'Mehul Palan',
+        name: 'Mehul Palan',
+        xp: 0,
+        role: 'user'
       }
+    },
+    settings: {
+      appExperience: 'standard',
+      selectedTab: 'home'
+    },
+    habits: [
+      { id: 'h1', name: 'Morning hydration & meditation', category: 'Health', streak: 4, consistency: 85, weekDays: [1, 1, 1, 1, 0, 0, 0] },
+      { id: 'h2', name: 'Focused deep work session', category: 'Focus', streak: 3, consistency: 75, weekDays: [1, 1, 1, 0, 0, 0, 0] },
+      { id: 'h3', name: 'Evening learning & reflection', category: 'Mindset', streak: 2, consistency: 60, weekDays: [1, 1, 0, 0, 0, 0, 0] }
     ],
     missions: {
       primaryQuest: {
-        id: 'quest_boss_1',
-        title: 'Master the 21-Day Consistency Challenge',
-        description: 'Maintain 80%+ habit completion rate for 21 days straight to unlock the Mythic Titanium Crest.',
-        reward_xp: 350,
-        reward_coins: 150,
-        progress: 14,
-        target: 21,
-        unit: 'days',
-        tier: 'Boss Quest'
+        id: 'q1',
+        title: 'Deep Work Sprint (3 Hours)',
+        description: 'Sustain uninterrupted focus to defeat the procrastination boss.',
+        tier: 'Boss Quest',
+        progress: 45,
+        target: 180,
+        unit: 'mins',
+        reward_xp: 300,
+        reward_coins: 40
       },
       dailyList: [
-        {
-          id: 'm_1',
-          title: 'Complete all 5 daily growth tasks',
-          xp: 60,
-          coins: 25,
-          done: false
-        },
-        {
-          id: 'm_2',
-          title: 'Engage with community discussion post',
-          xp: 25,
-          coins: 10,
-          done: true
-        },
-        {
-          id: 'm_3',
-          title: 'Log daily budget & savings update',
-          xp: 30,
-          coins: 15,
-          done: false
-        }
+        { id: 'm1', title: 'Complete Morning Routine', category: 'Habits', reward_xp: 50, reward_coins: 5, done: false },
+        { id: 'm2', title: 'Clear Priority #1 Task', category: 'Focus', reward_xp: 100, reward_coins: 10, done: true },
+        { id: 'm3', title: 'Evening Reflection Review', category: 'Review', reward_xp: 50, reward_coins: 5, done: false }
       ],
       timedMission: {
+        id: 't1',
+        title: 'Lightning Focus Sprint',
+        duration_seconds: 1500,
+        remaining_seconds: 1500,
         active: false,
-        title: 'Hyperfocus Deep Sprint',
-        durationMinutes: 25,
-        remainingSeconds: 1500,
-        reward_xp: 80,
-        reward_coins: 35
+        reward_xp: 150,
+        reward_coins: 15
       }
     },
     rewards: [
-      {
-        id: 'r_1',
-        title: 'Guilt-Free Cheat Meal',
-        category: 'Lifestyle',
-        icon: '🍕',
-        cost_coins: 150,
-        description: 'Enjoy your favorite dessert or cheat meal without regret.'
-      },
-      {
-        id: 'r_2',
-        title: '2-Hour Video Gaming Session',
-        category: 'Leisure',
-        icon: '🎮',
-        cost_coins: 250,
-        description: 'Uninterrupted gaming time after completing all tasks.'
-      },
-      {
-        id: 'r_3',
-        title: 'Order a New Book on Amazon',
-        category: 'Growth',
-        icon: '📚',
-        cost_coins: 400,
-        description: 'Reward your intellect with a brand new physical book.'
-      },
-      {
-        id: 'r_4',
-        title: 'Specialty Coffee at Artisan Cafe',
-        category: 'Leisure',
-        icon: '☕',
-        cost_coins: 120,
-        description: 'Treat yourself to your favorite pour-over or latte.'
-      },
-      {
-        id: 'r_5',
-        title: 'Full Day Off / Nature Hike',
-        category: 'Wellness',
-        icon: '🌲',
-        cost_coins: 800,
-        description: 'A full recharge day away from all work and screens.'
-      }
+      { id: 'r1', title: '1-Hour Gaming Session', description: 'Guilt-free session in your favorite game.', cost_coins: 50, cost_xp: 200, category: 'Leisure', icon: '🎮', stock: 5 },
+      { id: 'r2', title: 'Specialty Coffee Treat', description: 'Artisanal latte at local coffee bar.', cost_coins: 80, cost_xp: 350, category: 'Treats', icon: '☕', stock: 3 },
+      { id: 'r3', title: 'Weekend Movie Night', description: 'Stream any premier movie with snacks.', cost_coins: 120, cost_xp: 500, category: 'Entertainment', icon: '🎬', stock: 2 }
     ],
-    claimedRewards: [
-      {
-        id: 'cr_1',
-        title: 'Specialty Coffee at Artisan Cafe',
-        cost_coins: 120,
-        claimedAt: 'Yesterday'
-      }
-    ],
+    claimedRewards: [],
     achievements: [
-      {
-        id: 'ach_1',
-        title: 'First Step to Greatness',
-        category: 'Task Mastery',
-        description: 'Complete your first ever task in Progress XP.',
-        tier: 'uncommon',
-        unlocked: true,
-        progress: 1,
-        target: 1,
-        icon: '🏁'
-      },
-      {
-        id: 'ach_2',
-        title: 'Centurion of Focus',
-        category: 'Task Mastery',
-        description: 'Complete 100 total growth tasks.',
-        tier: 'rare',
-        unlocked: true,
-        progress: 184,
-        target: 100,
-        icon: '⚔️'
-      },
-      {
-        id: 'ach_3',
-        title: 'The 30-Day Flame',
-        category: 'Streak Titan',
-        description: 'Achieve a 30-day unbroken daily streak.',
-        tier: 'epic',
-        unlocked: true,
-        progress: 31,
-        target: 30,
-        icon: '🔥'
-      },
-      {
-        id: 'ach_4',
-        title: 'Habit Architect',
-        category: 'Habit Architect',
-        description: 'Track 6 habits concurrently with >85% monthly consistency.',
-        tier: 'legendary',
-        unlocked: false,
-        progress: 88,
-        target: 100,
-        icon: '🏛️'
-      },
-      {
-        id: 'ach_5',
-        title: 'Mind of Steel',
-        category: 'Knowledge Seeker',
-        description: 'Complete reading 10 book summaries in the Growth Library.',
-        tier: 'mythic',
-        unlocked: false,
-        progress: 6,
-        target: 10,
-        icon: '🧠'
-      },
-      {
-        id: 'ach_6',
-        title: 'Transcendent Evolution',
-        category: 'Grandmaster',
-        description: 'Attain Rank Transcendent and accumulate over 25,000 XP.',
-        tier: 'transcendent',
-        unlocked: false,
-        progress: 4850,
-        target: 25000,
-        icon: '💎'
-      }
+      { id: 'a1', title: 'First Step', desc: 'Complete your first task in Progress XP.', tier: 'Uncommon', icon: '🌱', category: 'Task Mastery', unlocked: true },
+      { id: 'a2', title: 'Streak Titan', desc: 'Maintain a 7-day uninterrupted consistency streak.', tier: 'Rare', icon: '🔥', category: 'Streak Titan', unlocked: false },
+      { id: 'a3', title: 'Centurion of Focus', desc: 'Accumulate 100+ focused deep work minutes.', tier: 'Epic', icon: '⚡', category: 'Task Mastery', unlocked: false },
+      { id: 'a4', title: 'Avatar Awakened', desc: 'Equip an anime avatar in your profile vault.', tier: 'Legendary', icon: '👑', category: 'Identity', unlocked: true }
     ],
     leaderboard: [
-      {
-        rank: 1,
-        name: 'Sarah Connor',
-        username: 'sarah_c',
-        xp: 12450,
-        streak: 48,
-        best_streak: 48,
-        tier: 'Legendary',
-        avatar: 'cyborg_neon'
-      },
-      {
-        rank: 2,
-        name: 'Vikram Mehta',
-        username: 'vikram_m',
-        xp: 9800,
-        streak: 35,
-        best_streak: 42,
-        tier: 'Master',
-        avatar: 'samurai_blade'
-      },
-      {
-        rank: 3,
-        name: 'Elena Rostova',
-        username: 'elena_r',
-        xp: 7600,
-        streak: 29,
-        best_streak: 30,
-        tier: 'Diamond',
-        avatar: 'mage_arcane'
-      },
-      {
-        rank: 4,
-        name: 'Alex Hunter (You)',
-        username: 'AlexGrowth',
-        xp: 4850,
-        streak: 14,
-        best_streak: 31,
-        tier: 'Diamond',
-        avatar: 'cyborg_neon',
-        isCurrentUser: true
-      },
-      {
-        rank: 5,
-        name: 'Marcus Vance',
-        username: 'marcus_v',
-        xp: 4200,
-        streak: 11,
-        best_streak: 25,
-        tier: 'Platinum',
-        avatar: 'pilot_exo'
-      },
-      {
-        rank: 6,
-        name: 'Ananya Sharma',
-        username: 'ananya_s',
-        xp: 3850,
-        streak: 16,
-        best_streak: 20,
-        tier: 'Gold',
-        avatar: 'valkyrie'
-      }
+      { rank: 1, name: 'Abdul Cizen Siddiqui', tier: 'Mythic Grandmaster', streak: 42, totalXp: 18450, avatar: '👑' },
+      { rank: 2, name: 'Alex Rivera', tier: 'Diamond Sentinel', streak: 28, totalXp: 14200, avatar: '⚔️' },
+      { rank: 3, name: 'Mehul Palan (You)', tier: 'Metal Rank Starter', streak: 4, totalXp: 162, avatar: '⚡' },
+      { rank: 4, name: 'Sophia Chen', tier: 'Gold Vanguard', streak: 12, totalXp: 8900, avatar: '🌟' }
     ],
     library: [
-      {
-        id: 'b_1',
-        title: 'Atomic Habits',
-        author: 'James Clear',
-        category: 'Habits & Systems',
-        readPercent: 100,
-        summary: 'Small habits make a remarkable difference. Focus on systems rather than goals.',
-        keyTakeaway: 'You do not rise to the level of your goals. You fall to the level of your systems.',
-        duration: '15 min summary'
-      },
-      {
-        id: 'b_2',
-        title: 'Deep Work',
-        author: 'Cal Newport',
-        category: 'Productivity',
-        readPercent: 70,
-        summary: 'Rules for focused success in a distracted world. The ability to perform deep work is becoming rare and valuable.',
-        keyTakeaway: 'Clarity about what matters provides clarity about what does not.',
-        duration: '18 min summary'
-      },
-      {
-        id: 'b_3',
-        title: 'The Psychology of Money',
-        author: 'Morgan Housel',
-        category: 'Finance',
-        readPercent: 45,
-        summary: 'Timeless lessons on wealth, greed, and happiness. Doing well with money has a little to do with how smart you are and a lot to do with how you behave.',
-        keyTakeaway: 'Spending money to show people how much money you have is the fastest way to have less money.',
-        duration: '14 min summary'
-      },
-      {
-        id: 'b_4',
-        title: 'Meditations',
-        author: 'Marcus Aurelius',
-        category: 'Stoicism & Philosophy',
-        readPercent: 30,
-        summary: 'Personal reflections by the Roman Emperor on stoic philosophy, resilience, and virtue.',
-        keyTakeaway: 'You have power over your mind - not outside events. Realize this, and you will find strength.',
-        duration: '20 min summary'
-      }
+      { id: 'b1', title: 'Atomic Habits', author: 'James Clear', category: 'Habits & Systems', progress: 68, totalPages: 320, summary: 'Tiny changes lead to remarkable results. Systems > Goals.' },
+      { id: 'b2', title: 'Deep Work', author: 'Cal Newport', category: 'Focus & Mastery', progress: 45, totalPages: 296, summary: 'Rules for focused success in a distracted world.' }
     ],
     finance: {
-      monthlyIncome: 120000,
-      monthlyExpenses: 48000,
-      savingsRate: 60,
+      summary: { income: 4500, expenses: 1850, savingsRate: 59 },
       transactions: [
-        { id: 'f_1', title: 'Salary / Client Retainer', type: 'income', amount: 120000, category: 'Work', date: '2026-10-01' },
-        { id: 'f_2', title: 'Rent & Utilities', type: 'expense', amount: 25000, category: 'Living', date: '2026-10-03' },
-        { id: 'f_3', title: 'SIP Mutual Funds', type: 'expense', amount: 35000, category: 'Investment', date: '2026-10-05' },
-        { id: 'f_4', title: 'Healthy Groceries & Nutrition', type: 'expense', amount: 12000, category: 'Food', date: '2026-10-10' }
+        { id: 't1', title: 'Freelance Design Milestone', amount: 2500, type: 'income', date: '2026-10-21', category: 'Career' },
+        { id: 't2', title: 'Growth Books & Software', amount: -140, type: 'expense', date: '2026-10-22', category: 'Education' }
       ]
     },
     community: [
-      {
-        id: 'post_1',
-        author: 'Sarah Connor',
-        avatar: 'cyborg_neon',
-        rank: 'Legendary',
-        content: 'Hit Day 48 on my streak! What helped me most was keeping my morning habit stack down to just 3 essential non-negotiables. Don’t overload your mornings.',
-        likes: 24,
-        commentsCount: 6,
-        timeAgo: '2h ago'
-      },
-      {
-        id: 'post_2',
-        author: 'Vikram Mehta',
-        avatar: 'samurai_blade',
-        rank: 'Master',
-        content: 'Just redeemed my 250 XP coins for a guilt-free 2-hour gaming session. Pairing RPG rewards with real-life habit completion works wonders.',
-        likes: 19,
-        commentsCount: 3,
-        timeAgo: '4h ago'
-      }
-    ],
-    admin: {
-      broadcastNotification: {
-        active: false,
-        title: 'Season 4 Grandmaster Quest is Live!',
-        message: 'Double XP is active for all focus sessions completed before midnight.',
-        countdownEnd: new Date(Date.now() + 86400000).toISOString(),
-        ctaText: 'Claim Daily Boost',
-        ctaLink: '?tab=mission'
-      },
-      usersList: [
-        { id: 'usr_1', name: 'Alex Hunter', username: 'AlexGrowth', email: 'alex@progressxp.app', xp: 4850, streak: 14, role: 'admin', plan: 'Lifetime Pro', status: 'Active' },
-        { id: 'usr_2', name: 'Sarah Connor', username: 'sarah_c', email: 'sarah@resistance.net', xp: 12450, streak: 48, role: 'user', plan: 'Monthly Elite', status: 'Active' },
-        { id: 'usr_3', name: 'Vikram Mehta', username: 'vikram_m', email: 'vikram@growth.in', xp: 9800, streak: 35, role: 'user', plan: 'Lifetime Pro', status: 'Active' },
-        { id: 'usr_4', name: 'Elena Rostova', username: 'elena_r', email: 'elena@orbit.io', xp: 7600, streak: 29, role: 'user', plan: 'Free Trial', status: 'Active' },
-        { id: 'usr_5', name: 'Marcus Vance', username: 'marcus_v', email: 'marcus@corp.com', xp: 4200, streak: 11, role: 'user', plan: 'Monthly Elite', status: 'Active' }
-      ]
-    }
+      { id: 'p1', author: 'Abdul Cizen Siddiqui', rank: 'Grandmaster', time: '2 hours ago', content: 'Consistency is not about never missing; it is about returning to your rhythm immediately after any slip.', likes: 24, comments: [ { author: 'Mehul Palan', text: 'Huge mindset unlock. Building my streak now!' } ] }
+    ]
   };
 
-  class Store {
-    constructor() {
-      this.listeners = [];
-      this.pendingUndoTimers = new Map();
-      this.state = this.loadState();
-    }
+  let state = loadInitialState();
+  const listeners = new Set();
+  const pendingUndos = new Map();
 
-    loadState() {
-      try {
-        const raw = localStorage.getItem(STORAGE_KEY);
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          // Merge with default state to ensure any new keys exist
-          return Object.assign({}, DEFAULT_STATE, parsed, {
-            auth: Object.assign({}, DEFAULT_STATE.auth, parsed.auth || {}),
-            settings: Object.assign({}, DEFAULT_STATE.settings, parsed.settings || {})
-          });
-        }
-      } catch (e) {
-        console.warn('ProgressXP Store: Failed to load from localStorage, using default seed', e);
+  function loadInitialState() {
+    try {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        return Object.assign({}, DEFAULT_STATE, parsed, {
+          user: Object.assign({}, DEFAULT_STATE.user, parsed.user || {}),
+          auth: Object.assign({}, DEFAULT_STATE.auth, parsed.auth || {})
+        });
       }
-      return JSON.parse(JSON.stringify(DEFAULT_STATE));
-    }
+    } catch (_) {}
+    return JSON.parse(JSON.stringify(DEFAULT_STATE));
+  }
 
-    saveState() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(this.state));
-      } catch (e) {
-        console.error('ProgressXP Store: Failed to save to localStorage', e);
-      }
-    }
+  function saveState() {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (_) {}
+  }
+
+  function notify() {
+    listeners.forEach(fn => {
+      try { fn(state); } catch (e) { console.error('Store subscriber error:', e); }
+    });
+    saveState();
+  }
+
+  const ProgressXPStore = {
+    getState() {
+      return state;
+    },
 
     subscribe(listener) {
-      this.listeners.push(listener);
-      return () => {
-        this.listeners = this.listeners.filter(l => l !== listener);
-      };
-    }
+      listeners.add(listener);
+      return () => listeners.delete(listener);
+    },
 
-    notify(changedPath) {
-      this.saveState();
-      this.listeners.forEach(fn => {
-        try {
-          fn(this.state, changedPath);
-        } catch (err) {
-          console.error('ProgressXP Store Listener Error:', err);
-        }
-      });
-    }
+    setActiveTab(tab) {
+      if (state.activeTab === tab) return;
+      state.activeTab = tab;
+      if (window.ProgressXPSound) window.ProgressXPSound.play('nav');
+      notify();
+    },
 
-    getState() {
-      return this.state;
-    }
+    toggleSimpleMode() {
+      state.simpleMode = !state.simpleMode;
+      state.settings.appExperience = state.simpleMode ? 'clutter_free' : 'standard';
+      if (window.ProgressXPSound) window.ProgressXPSound.play('click');
+      notify();
+    },
 
-    // --- ACTIONS ---
+    setAppExperience(exp) {
+      state.simpleMode = (exp === 'clutter_free');
+      state.settings.appExperience = exp;
+      notify();
+    },
 
-    setTab(tabName) {
-      this.state.settings.selectedTab = tabName;
-      this.notify('settings.selectedTab');
-    }
-
-    setAppExperience(mode) {
-      this.state.settings.appExperience = mode;
-      if (typeof document !== 'undefined') {
-        document.documentElement.setAttribute('data-app-experience', mode);
-        if (mode === 'clutter_free') {
-          document.body.classList.add('simple-mode-on');
-        } else {
-          document.body.classList.remove('simple-mode-on');
-        }
-      }
-      this.notify('settings.appExperience');
-    }
-
-    toggleAppExperience() {
-      const next = this.state.settings.appExperience === 'standard' ? 'clutter_free' : 'standard';
-      this.setAppExperience(next);
-    }
-
-    // Task Actions with 3-Second Undo Grace Period
-    completeTask(taskId, onGraceTick, onGraceFinished) {
-      const task = this.state.tasks.find(t => t.id === taskId);
-      if (!task || task.done) return;
-
-      task.done = true;
-      task.completedAt = new Date().toISOString();
-      task.inGracePeriod = true;
-      task.graceRemaining = 3.0;
-
-      // Add XP & Coins immediately
-      this.state.auth.user.xp += task.xp;
-      this.state.auth.user.coins += task.coins;
-      this.checkLevelUp();
-      this.notify('tasks');
-
-      // Play audio chime if available
-      if (window.ProgressXPAudio) {
-        window.ProgressXPAudio.playTaskComplete();
-      }
-
-      // Start 3-second countdown
-      const startTime = Date.now();
-      const interval = setInterval(() => {
-        const elapsed = (Date.now() - startTime) / 1000;
-        const remaining = Math.max(0, 3.0 - elapsed);
-        task.graceRemaining = parseFloat(remaining.toFixed(1));
-
-        if (onGraceTick) onGraceTick(task.graceRemaining);
-
-        if (remaining <= 0) {
-          clearInterval(interval);
-          this.pendingUndoTimers.delete(taskId);
-          delete task.inGracePeriod;
-          delete task.graceRemaining;
-          this.notify('tasks');
-          if (onGraceFinished) onGraceFinished();
-        }
-      }, 100);
-
-      this.pendingUndoTimers.set(taskId, {
-        interval,
-        rollback: () => {
-          clearInterval(interval);
-          task.done = false;
-          task.completedAt = null;
-          delete task.inGracePeriod;
-          delete task.graceRemaining;
-          this.state.auth.user.xp = Math.max(0, this.state.auth.user.xp - task.xp);
-          this.state.auth.user.coins = Math.max(0, this.state.auth.user.coins - task.coins);
-          this.checkLevelUp();
-          this.notify('tasks');
-        }
-      });
-    }
-
-    undoTask(taskId) {
-      const entry = this.pendingUndoTimers.get(taskId);
-      if (entry) {
-        entry.rollback();
-        this.pendingUndoTimers.delete(taskId);
-        if (window.ProgressXPAudio) {
-          window.ProgressXPAudio.playClick();
-        }
-        return true;
-      }
-      return false;
-    }
-
-    addTask(title, category = 'Growth', xp = 30, coins = 15, minutes = 25) {
+    addTask(title, category = 'Personal', xp = 50, coins = 5, duration = 30) {
       const newTask = {
         id: 'task_' + Date.now(),
         title: title.trim(),
+        desc: 'Complete this focused task to earn XP and level up.',
+        priority: state.tasks.length + 1,
         category: category,
-        xp: parseInt(xp, 10) || 30,
-        coins: parseInt(coins, 10) || 15,
-        minutes: parseInt(minutes, 10) || 25,
-        done: false,
-        completedAt: null
+        recurrence: 'Daily',
+        xp: Number(xp) || 50,
+        coins: Number(coins) || 5,
+        durationMinutes: Number(duration) || 30,
+        scheduledTime: 'Anytime',
+        paceStatus: 'upcoming',
+        done: false
       };
-      this.state.tasks.unshift(newTask);
-      this.notify('tasks');
+      state.tasks.push(newTask);
+      if (window.ProgressXPSound) window.ProgressXPSound.play('focus');
+      notify();
       return newTask;
-    }
+    },
 
-    deleteTask(taskId) {
-      this.state.tasks = this.state.tasks.filter(t => t.id !== taskId);
-      this.notify('tasks');
-    }
+    startCompleteTaskGracePeriod(taskId, onTimerTick, onFinalize) {
+      const task = state.tasks.find(t => t.id === taskId);
+      if (!task || task.done || pendingUndos.has(taskId)) return;
 
-    reorderTasks(newOrderIds) {
-      const taskMap = new Map(this.state.tasks.map(t => [t.id, t]));
-      const reordered = [];
-      newOrderIds.forEach(id => {
-        if (taskMap.has(id)) {
-          reordered.push(taskMap.get(id));
-          taskMap.delete(id);
+      if (window.ProgressXPSound) window.ProgressXPSound.play('click');
+
+      let remainingSec = 3;
+      if (onTimerTick) onTimerTick(remainingSec);
+
+      const interval = setInterval(() => {
+        remainingSec--;
+        if (remainingSec > 0) {
+          if (onTimerTick) onTimerTick(remainingSec);
+        } else {
+          clearInterval(interval);
+          pendingUndos.delete(taskId);
+          this.finalizeCompleteTask(taskId);
+          if (onFinalize) onFinalize();
         }
-      });
-      // Append any remaining
-      taskMap.forEach(t => reordered.push(t));
-      this.state.tasks = reordered;
-      this.notify('tasks');
-    }
+      }, 1000);
 
-    // Habit Actions
-    toggleHabitDay(habitId, dayIndex) {
-      const habit = this.state.habits.find(h => h.id === habitId);
-      if (!habit) return;
+      pendingUndos.set(taskId, { interval });
+    },
 
-      const current = habit.weekDays[dayIndex];
-      const next = current ? 0 : 1;
-      habit.weekDays[dayIndex] = next;
-
-      // If marked done, grant XP
-      if (next === 1) {
-        this.state.auth.user.xp += 15;
-        this.state.auth.user.coins += 5;
-        habit.streak += 1;
-        if (window.ProgressXPAudio) window.ProgressXPAudio.playTaskComplete();
-      } else {
-        this.state.auth.user.xp = Math.max(0, this.state.auth.user.xp - 15);
-        this.state.auth.user.coins = Math.max(0, this.state.auth.user.coins - 5);
-        habit.streak = Math.max(0, habit.streak - 1);
-      }
-
-      this.checkLevelUp();
-      this.notify('habits');
-    }
-
-    addHabit(name, category = 'Health', notes = '') {
-      const newHabit = {
-        id: 'h_' + Date.now(),
-        name: name.trim(),
-        category: category,
-        streak: 1,
-        consistency: 100,
-        notes: notes,
-        weekDays: [0, 0, 0, 0, 0, 0, 0]
-      };
-      // Mark today as 1
-      const todayDay = (new Date().getDay() + 6) % 7; // 0=Mon, 6=Sun
-      newHabit.weekDays[todayDay] = 1;
-      this.state.auth.user.xp += 20;
-      this.state.habits.push(newHabit);
-      this.checkLevelUp();
-      this.notify('habits');
-      return newHabit;
-    }
-
-    // Mission Actions
-    completeMission(missionId) {
-      const mission = this.state.missions.dailyList.find(m => m.id === missionId);
-      if (!mission || mission.done) return;
-
-      mission.done = true;
-      this.state.auth.user.xp += mission.xp;
-      this.state.auth.user.coins += mission.coins;
-      this.checkLevelUp();
-      this.notify('missions');
-      if (window.ProgressXPAudio) window.ProgressXPAudio.playTaskComplete();
-    }
-
-    copyYesterdayMissions() {
-      // Simulate cloning yesterday's list
-      this.state.missions.dailyList.forEach(m => {
-        m.done = false;
-      });
-      this.notify('missions');
-      if (window.ProgressXPAudio) window.ProgressXPAudio.playClick();
-    }
-
-    // Reward Actions
-    redeemReward(rewardId) {
-      const reward = this.state.rewards.find(r => r.id === rewardId);
-      if (!reward) return { ok: false, msg: 'Reward not found' };
-      if (this.state.auth.user.coins < reward.cost_coins) {
-        return { ok: false, msg: 'Insufficient coins! Earn more by completing tasks and habits.' };
-      }
-
-      this.state.auth.user.coins -= reward.cost_coins;
-      this.state.claimedRewards.unshift({
-        id: 'cr_' + Date.now(),
-        title: reward.title,
-        cost_coins: reward.cost_coins,
-        claimedAt: 'Just now'
-      });
-      this.notify('rewards');
-      if (window.ProgressXPAudio) window.ProgressXPAudio.playLevelUp();
-      return { ok: true, msg: `Unlocked: ${reward.title}!` };
-    }
-
-    addCustomReward(title, cost, icon = '🎁') {
-      const newReward = {
-        id: 'r_' + Date.now(),
-        title: title.trim(),
-        category: 'Personal',
-        icon: icon,
-        cost_coins: parseInt(cost, 10) || 100,
-        description: 'Custom self-crafted reward.'
-      };
-      this.state.rewards.push(newReward);
-      this.notify('rewards');
-    }
-
-    // Finance Actions
-    addTransaction(title, type, amount, category) {
-      const num = parseFloat(amount) || 0;
-      const trans = {
-        id: 'f_' + Date.now(),
-        title: title.trim(),
-        type: type,
-        amount: num,
-        category: category,
-        date: new Date().toISOString().slice(0, 10)
-      };
-      this.state.finance.transactions.unshift(trans);
-      if (type === 'income') {
-        this.state.finance.monthlyIncome += num;
-      } else {
-        this.state.finance.monthlyExpenses += num;
-      }
-      const diff = this.state.finance.monthlyIncome - this.state.finance.monthlyExpenses;
-      this.state.finance.savingsRate = Math.round((diff / Math.max(1, this.state.finance.monthlyIncome)) * 100);
-      this.notify('finance');
-    }
-
-    // Community Actions
-    addPost(content) {
-      const newPost = {
-        id: 'post_' + Date.now(),
-        author: this.state.auth.user.name,
-        avatar: this.state.auth.user.avatar,
-        rank: this.state.auth.user.rank,
-        content: content.trim(),
-        likes: 0,
-        commentsCount: 0,
-        timeAgo: 'Just now'
-      };
-      this.state.community.unshift(newPost);
-      this.state.auth.user.xp += 10;
-      this.notify('community');
-      return newPost;
-    }
-
-    likePost(postId) {
-      const post = this.state.community.find(p => p.id === postId);
-      if (post) {
-        post.likes += 1;
-        this.notify('community');
-      }
-    }
-
-    // User & Avatar Actions
-    setAvatar(avatarKey) {
-      this.state.auth.user.avatar = avatarKey;
-      this.notify('auth.user.avatar');
-    }
-
-    login(username, password) {
-      this.state.auth.isLoggedIn = true;
-      this.state.auth.user.username = username || 'User';
-      this.state.auth.user.name = username || 'Alex Hunter';
-      this.notify('auth');
+    cancelCompleteTask(taskId) {
+      if (!pendingUndos.has(taskId)) return false;
+      const { interval } = pendingUndos.get(taskId);
+      clearInterval(interval);
+      pendingUndos.delete(taskId);
+      if (window.ProgressXPSound) window.ProgressXPSound.play('click');
+      notify();
       return true;
-    }
+    },
 
-    logout() {
-      this.state.auth.isLoggedIn = false;
-      this.notify('auth');
-    }
+    isPendingGrace(taskId) {
+      return pendingUndos.has(taskId);
+    },
 
-    checkLevelUp() {
-      const user = this.state.auth.user;
-      if (user.xp >= user.next_level_xp) {
-        user.level += 1;
-        user.next_level_xp = Math.round(user.next_level_xp * 1.35);
-        if (user.level >= 20) user.rank = 'Transcendent';
-        else if (user.level >= 16) user.rank = 'Master';
-        else if (user.level >= 12) user.rank = 'Diamond';
-        else if (user.level >= 8) user.rank = 'Platinum';
-        else if (user.level >= 5) user.rank = 'Gold';
-        else if (user.level >= 3) user.rank = 'Silver';
-        else user.rank = 'Bronze';
+    finalizeCompleteTask(taskId) {
+      const task = state.tasks.find(t => t.id === taskId);
+      if (!task || task.done) return;
 
-        if (window.ProgressXPAudio) window.ProgressXPAudio.playLevelUp();
+      task.done = true;
+      task.paceStatus = 'done';
+      state.user.totalXp += task.xp;
+      state.user.xpToday += task.xp;
+      state.user.coins += task.coins;
+      state.user.focusedTodayMinutes += task.durationMinutes;
+
+      // Sync auth mock state for compatibility
+      state.auth.user.xp = state.user.totalXp;
+
+      // Level calculation
+      while (state.user.totalXp >= state.user.xpToNextLevel) {
+        state.user.level++;
+        state.user.xpToNextLevel = state.user.level * 100;
       }
+
+      if (window.ProgressXPSound) window.ProgressXPSound.play('success');
+      notify();
+    },
+
+    completeTask(taskId) {
+      this.finalizeCompleteTask(taskId);
+    },
+
+    undoTask(taskId) {
+      const task = state.tasks.find(t => t.id === taskId);
+      if (!task || !task.done) return false;
+
+      task.done = false;
+      task.paceStatus = 'behind';
+      state.user.totalXp = Math.max(0, state.user.totalXp - task.xp);
+      state.user.xpToday = Math.max(0, state.user.xpToday - task.xp);
+      state.user.coins = Math.max(0, state.user.coins - task.coins);
+      state.user.focusedTodayMinutes = Math.max(0, state.user.focusedTodayMinutes - task.durationMinutes);
+      state.auth.user.xp = state.user.totalXp;
+
+      notify();
+      return true;
+    },
+
+    toggleHabitDay(habitId, dayIndex) {
+      const habit = state.habits.find(h => h.id === habitId);
+      if (!habit) return;
+      habit.weekDays[dayIndex] = habit.weekDays[dayIndex] ? 0 : 1;
+      notify();
+    },
+
+    resetAll() {
+      state = JSON.parse(JSON.stringify(DEFAULT_STATE));
+      saveState();
+      notify();
     }
-  }
+  };
 
-  // Global singleton
-  window.ProgressXPStore = new Store();
-
-})(window);
+  window.ProgressXPStore = ProgressXPStore;
+})();

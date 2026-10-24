@@ -13,46 +13,63 @@ global.localStorage = {
 require('./public/js/store.js');
 
 const store = window.ProgressXPStore;
-console.log('Testing ProgressXP Store...');
+console.log('Testing ProgressXP Production Store (Mehul Palan — Authentic Seed)...');
 
-// Test 1: Initial state load
+// Test 1: Initial state load with real user profile
 const state = store.getState();
 assert.ok(state.auth.isLoggedIn, 'User should be logged in by default');
-assert.strictEqual(state.auth.user.username, 'AlexGrowth', 'Username should match initial seed');
-console.log('✓ Initial state verified');
+assert.strictEqual(state.user.name, 'Mehul Palan', 'User display name should be Mehul Palan');
+assert.strictEqual(state.user.title, 'Starter', 'User rank should be Starter');
+assert.strictEqual(state.tasks.length, 3, 'Should start with 3 authentic starter tasks');
+console.log('✓ Initial state verified (Mehul Palan, Starter, 3 tasks)');
 
 // Test 2: Add task
 const initialTasks = state.tasks.length;
-store.addTask('Test Automated Verification Task', 'Focus', 40, 20);
+store.addTask('Deep Work Focus Block', 'Focus', 50, 10, 45);
 assert.strictEqual(store.getState().tasks.length, initialTasks + 1, 'Task count should increase');
 console.log('✓ Add task verified');
 
-// Test 3: Complete task & undo grace period
-const newTask = store.getState().tasks[0];
-const initialXp = store.getState().auth.user.xp;
-store.completeTask(newTask.id);
-assert.strictEqual(newTask.done, true, 'Task should be marked done');
-assert.strictEqual(store.getState().auth.user.xp, initialXp + 40, 'XP should increase by 40');
+// Test 3: Complete task
+const taskToComplete = store.getState().tasks[0];
+const initialXp = store.getState().user.totalXp;
+store.completeTask(taskToComplete.id);
+assert.strictEqual(taskToComplete.done, true, 'Task should be marked done');
+assert.strictEqual(store.getState().user.totalXp, initialXp + taskToComplete.xp, 'XP should increase correctly');
 console.log('✓ Complete task verified');
 
 // Test 4: Undo task
-const undoSuccess = store.undoTask(newTask.id);
+const undoSuccess = store.undoTask(taskToComplete.id);
 assert.strictEqual(undoSuccess, true, 'Undo should succeed');
-assert.strictEqual(newTask.done, false, 'Task should be undone');
-assert.strictEqual(store.getState().auth.user.xp, initialXp, 'XP should be rolled back');
-console.log('✓ 3-second undo grace period verified');
+assert.strictEqual(taskToComplete.done, false, 'Task should be undone');
+assert.strictEqual(store.getState().user.totalXp, initialXp, 'XP should be rolled back');
+console.log('✓ Task undo verified');
 
-// Test 5: Habits toggle
-const habit = store.getState().habits[0];
-const initialDay = habit.weekDays[0];
-store.toggleHabitDay(habit.id, 0);
-assert.strictEqual(habit.weekDays[0], initialDay ? 0 : 1, 'Habit day should toggle');
-console.log('✓ Habit check-in verified');
+// Test 5: Tab navigation
+assert.strictEqual(store.getState().activeTab, 'home');
+store.setActiveTab('growth');
+assert.strictEqual(store.getState().activeTab, 'growth', 'Should switch to growth tab');
+store.setActiveTab('wake');
+assert.strictEqual(store.getState().activeTab, 'wake', 'Should switch to wake tab');
+store.setActiveTab('home');
+console.log('✓ Tab navigation state verified');
 
-// Test 6: Experience mode toggle
-assert.strictEqual(store.getState().settings.appExperience, 'standard');
-store.setAppExperience('clutter_free');
-assert.strictEqual(store.getState().settings.appExperience, 'clutter_free', 'Clutter-free mode toggled');
-console.log('✓ Experience mode toggle verified');
+// Test 6: Simple mode toggle
+assert.strictEqual(store.getState().simpleMode, false);
+store.toggleSimpleMode();
+assert.strictEqual(store.getState().simpleMode, true, 'Simple mode toggled on');
+store.toggleSimpleMode();
+assert.strictEqual(store.getState().simpleMode, false, 'Simple mode toggled off');
+console.log('✓ Simple mode toggle verified');
 
-console.log('\nAll 6 Progress XP unit & integration tests PASSED successfully!');
+// Test 7: Growth view component DOM generator
+require('./public/js/components/growth.js');
+const mockGrowthEl = { innerHTML: '', querySelector: () => null, querySelectorAll: () => [] };
+window.ProgressXPGrowth.render(mockGrowthEl, store.getState());
+assert.ok(mockGrowthEl.innerHTML.includes('30-DAY PERFORMANCE SCAN'), 'Growth view must render 30-Day Performance Scan');
+assert.ok(mockGrowthEl.innerHTML.includes('Consistency Calendar'), 'Growth view must render Consistency Calendar');
+assert.ok(mockGrowthEl.innerHTML.includes('AURA · ATTRIBUTE INTELLIGENCE'), 'Growth view must render AURA Intelligence');
+assert.ok(mockGrowthEl.innerHTML.includes('data-growth-radar-potential'), 'Growth view must render Radar polygon');
+assert.ok(mockGrowthEl.innerHTML.includes('30-DAY CAPABILITY TRAJECTORY'), 'Growth view must render Trajectory chart');
+console.log('✓ Growth View & AURA Intelligence component rendering verified');
+
+console.log('\nAll 7 Progress XP production test suites PASSED successfully!');

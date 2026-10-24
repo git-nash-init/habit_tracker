@@ -3,92 +3,569 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-  <meta name="theme-color" content="#10213d">
-  <meta name="description" content="Progress XP - Your personal growth workspace for tasks, habits, daily missions, achievements, and community.">
-  <meta name="author" content="Abdul Cizen Siddiqui">
-  <title>Progress XP — Real Life RPG Growth Workspace</title>
+  <meta name="theme-color" content="#07111d">
+  <meta name="description" content="Progress XP - Production Personal Growth Workspace. Complete tasks, earn XP, unlock upgrades, and improve consistency.">
+  <title>Progress XP</title>
 
-  <!-- PWA Manifest & App Icons -->
+  <!-- PWA Manifest & App Favicon -->
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
 
-  <!-- Core Design Tokens & Styles -->
-  <link rel="stylesheet" href="css/index.css">
-  <link rel="stylesheet" href="css/themes.css">
-  <link rel="stylesheet" href="css/nav.css">
-  <link rel="stylesheet" href="css/dashboard.css">
-  <link rel="stylesheet" href="css/habits.css">
+  <!-- Core Progress XP Production Stylesheet & Growth System -->
+  <link rel="stylesheet" href="css/progress-xp.css">
+  <link rel="stylesheet" href="css/growth-system.css">
   <link rel="stylesheet" href="css/missions.css">
+  <link rel="stylesheet" href="css/habits.css">
   <link rel="stylesheet" href="css/shop.css">
   <link rel="stylesheet" href="css/achievements.css">
   <link rel="stylesheet" href="css/modules.css">
   <link rel="stylesheet" href="css/admin.css">
-  <link rel="stylesheet" href="css/auth.css">
-  <link rel="stylesheet" href="css/aura.css">
 </head>
 <body class="theme-default">
 
-  <!-- Cyberpunk Background & Cursor Glow -->
-  <div class="site-bg-layer" id="siteBgLayer"></div>
-  <div class="cursor-dot" id="cursorDot"></div>
-
-  <!-- Mobile Topbar -->
-  <header class="mobile-topbar">
-    <div style="display: flex; align-items: center; gap: 10px;">
-      <div class="brand-mark" style="width: 32px; height: 32px; font-size: 11px;">XP</div>
-      <b style="font-size: 15px; color: #fff;">Progress XP</b>
+  <!-- ==========================================================================
+       APP DEMO TOPBAR (GUIDED TUTORIAL CONTROLLER)
+       ========================================================================== -->
+  <header class="px-demo-head" id="demoTopBar">
+    <div class="px-demo-brand">
+      APP DEMO
+      <small>Sample data</small>
     </div>
-    <button class="btn secondary sm" id="mobileMenuBtn" aria-label="Open menu">
-      ☰ Menu
-    </button>
+    <div class="px-demo-controls">
+      <button type="button" class="px-demo-btn" data-demo="previous" aria-label="Previous step">‹</button>
+      <span class="px-guide-count">Tour 1/4</span>
+      <button type="button" class="px-demo-btn play-btn" data-demo="play" aria-label="Start demo">▶</button>
+      <button type="button" class="px-demo-btn" data-demo="replay" aria-label="Replay step">⟲</button>
+      <button type="button" class="px-demo-btn" data-demo="jump" aria-label="Next step">›</button>
+      <button type="button" class="px-demo-btn" data-demo="speed" aria-label="Speed toggle">2×</button>
+      <button type="button" class="px-demo-btn" data-demo="skip" aria-label="Close demo">✕</button>
+    </div>
   </header>
 
-  <!-- Main App Layout Shell -->
-  <div class="app-layout" id="appLayout">
-    <!-- Desktop Sidebar Rail & Drawer -->
-    <aside class="app-sidebar" id="appSidebar"></aside>
+  <!-- ==========================================================================
+       APP MAIN HEADER
+       ========================================================================== -->
+  <header class="app-header">
+    <div class="user-status-block">
+      <div class="status-badge-container">
+        <div class="status-avatar-ring">
+          <!-- Stylized Japanese Crest / Emblem Monogram -->
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 3v18M6 8h12M4 14h16M8 19l4-3 4 3" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="status-pill-label">STATUS</span>
+        </div>
+      </div>
+      <div class="brand-titles">
+        <h1>Progress XP</h1>
+        <p>Welcome, Mehul Palan. Starter.</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button type="button" class="mode-toggle-btn" id="simpleModeToggle">Simple Mode</button>
+      <button type="button" class="notif-bell-btn" id="notifBellBtn" aria-label="Notifications">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+        </svg>
+        <span class="notif-badge">4</span>
+      </button>
+      <button type="button" class="hamburger-btn" id="menuToggle" aria-label="Open navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
 
-    <!-- Main Dynamic Content Workspace -->
-    <main class="main-content" id="appMain" role="main"></main>
+  <!-- ==========================================================================
+       APP WORKSPACE (RAIL + MAIN PANELS)
+       ========================================================================== -->
+  <div class="app-container">
+    
+    <!-- LEFT VERTICAL ROUTE RAIL -->
+    <nav class="core-route-rail" aria-label="Main Navigation">
+      <button type="button" class="rail-btn active" data-rail-tab="home" aria-label="Home">
+        <svg viewBox="0 0 24 24"><path d="M4 11.2 12 4l8 7.2v8.3H14.7v-5.8H9.3v5.8H4z"/></svg>
+        <span>Home</span>
+      </button>
+
+      <button type="button" class="rail-btn" data-rail-tab="growth" aria-label="Growth">
+        <svg viewBox="0 0 24 24"><path d="M4 18 9 13l3 3 7-8"/><path d="M15 8h4v4"/></svg>
+        <span>Growth</span>
+      </button>
+
+      <!-- + ADD BUTTON -->
+      <button type="button" class="rail-btn quick-add-btn" data-open-add-task aria-label="Add task">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+        <span>Add</span>
+      </button>
+
+      <button type="button" class="rail-btn" data-rail-tab="writeup" aria-label="Write Up">
+        <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        <span>Write Up</span>
+      </button>
+
+      <button type="button" class="rail-btn" data-rail-tab="identity" aria-label="Identity">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5.2 20c.8-4 3-6 6.8-6s6 2 6.8 6"/></svg>
+        <span>Identity</span>
+      </button>
+    </nav>
+
+    <!-- MAIN DYNAMIC CONTENT WORKSPACE -->
+    <main class="main-workspace">
+
+      <!-- ======================================================================
+           VIEW PANEL: HOME / DASHBOARD (NOW VIEW)
+           ====================================================================== -->
+      <section class="view-panel active" id="panel_home">
+
+        <!-- CARD 1: FOCUS ON WHAT MATTERS (HIGHLIGHT ROTATING VIEW) -->
+        <div class="highlight-card">
+          <div class="card-eyebrow">
+            <span class="box-icon"></span>
+            TODAY
+          </div>
+          <h2 class="highlight-title">Focus on what matters</h2>
+          <p class="highlight-desc">Your XP, standing, rewards and schedule stay here in one calm rotating view instead of four separate cards.</p>
+
+          <div class="metrics-pill-row">
+            <div class="stat-pill">STREAK <strong data-streak-days>0 days</strong></div>
+            <div class="stat-pill">FOCUSED TODAY <strong data-focused-minutes>0 min</strong></div>
+            <div class="stat-pill">OPEN NOW <strong data-open-tasks>3 tasks</strong></div>
+          </div>
+
+          <!-- DUAL RECESSED WIDGETS -->
+          <div class="highlight-widgets-grid">
+            
+            <!-- LEFT WIDGET: TOTAL XP HUD -->
+            <div class="xp-hud-card">
+              <div class="xp-hud-top">
+                <div>
+                  <div class="xp-label">TOTAL XP</div>
+                  <div class="xp-big-number" data-total-xp>0</div>
+                </div>
+                <div class="xp-status-badges">
+                  <span class="xp-sub-pill neutral" data-today-xp>0 XP today</span>
+                  <span class="xp-sub-pill warning">-50 if inactive</span>
+                </div>
+              </div>
+              <div class="xp-progress-block">
+                <div class="xp-progress-label" data-level-label>100 XP to Level 2</div>
+                <div class="xp-progress-track">
+                  <div class="xp-progress-fill" data-xp-progress-fill></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- RIGHT WIDGET: OUTSIDE NOW / EVENING SCENE -->
+            <div class="outside-scene-card">
+              <div class="outside-head">
+                <div class="outside-label-group">
+                  <span class="outside-tag">OUTSIDE NOW</span>
+                  <div class="scene-mode-text" data-outside-mode>Evening mode</div>
+                </div>
+                <div class="outside-info-badges">
+                  <span class="outside-time-badge" data-outside-time>17:58</span>
+                  <span class="outside-loc-badge">Location off</span>
+                </div>
+              </div>
+
+              <!-- VECTOR MOUNTAIN EVENING GRAPHIC CANVAS -->
+              <div class="outside-graphic-canvas">
+                <svg viewBox="0 0 320 94" preserveAspectRatio="none" fill="none">
+                  <defs>
+                    <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#071322"/>
+                      <stop offset="60%" stop-color="#0d243e"/>
+                      <stop offset="100%" stop-color="#143456"/>
+                    </linearGradient>
+                    <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="#ffedd5"/>
+                      <stop offset="35%" stop-color="#f59e0b"/>
+                      <stop offset="70%" stop-color="#d97706" stop-opacity="0.7"/>
+                      <stop offset="100%" stop-color="#b45309" stop-opacity="0"/>
+                    </radialGradient>
+                    <linearGradient id="mountFront" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#0a1a2c"/>
+                      <stop offset="100%" stop-color="#050e18"/>
+                    </linearGradient>
+                    <linearGradient id="mountBack" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#122942"/>
+                      <stop offset="100%" stop-color="#091624"/>
+                    </linearGradient>
+                  </defs>
+                  
+                  <!-- Sky Backdrop -->
+                  <rect width="320" height="94" fill="url(#skyGrad)"/>
+
+                  <!-- Glowing Sun / Moon Orbiting Behind Ridge -->
+                  <circle cx="240" cy="46" r="24" fill="url(#sunGlow)"/>
+                  <circle cx="240" cy="46" r="13" fill="#ffedd5" opacity="0.9"/>
+
+                  <!-- Soft Twilight Clouds -->
+                  <path d="M190 40h40a6 6 0 0 1 6 6 6 6 0 0 1-6 6h-40a6 6 0 0 1-6-6 6 6 0 0 1 6-6z" fill="#1e3a5f" opacity="0.45"/>
+                  <path d="M225 32h35a5 5 0 0 1 5 5 5 5 0 0 1-5 5h-35a5 5 0 0 1-5-5 5 5 0 0 1 5-5z" fill="#2d4d75" opacity="0.35"/>
+
+                  <!-- Background Mountain Peaks -->
+                  <path d="M120 94 L190 38 L250 82 L290 52 L340 94 Z" fill="url(#mountBack)"/>
+
+                  <!-- Foreground Mountain Ridges -->
+                  <path d="M-20 94 L60 58 L140 94 Z" fill="url(#mountFront)"/>
+                  <path d="M80 94 L180 44 L270 94 Z" fill="url(#mountFront)"/>
+                  <path d="M220 94 L280 62 L340 94 Z" fill="url(#mountFront)"/>
+                </svg>
+              </div>
+
+              <!-- CAROUSEL INDICATOR DOTS -->
+              <div class="carousel-dots">
+                <button type="button" class="carousel-dot active" aria-label="Highlight 1"></button>
+                <button type="button" class="carousel-dot" aria-label="Highlight 2"></button>
+                <button type="button" class="carousel-dot" aria-label="Highlight 3"></button>
+                <button type="button" class="carousel-dot" aria-label="Highlight 4"></button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- CARD 2: TODAY PLAN (SCHEDULE & BEHIND STATUS) -->
+        <div class="today-plan-card">
+          <div class="today-plan-header">
+            <div class="today-plan-info-group">
+              <div class="today-progress-ring">
+                <span class="count" data-today-plan-count>0 / 3</span>
+                <span class="label">TASKS</span>
+              </div>
+              <div class="today-plan-titles">
+                <span class="eyebrow">TODAY</span>
+                <h2>Today plan</h2>
+                <p>4 tasks around your current time · 3 total scheduled today</p>
+              </div>
+            </div>
+            <div class="today-behind-pill">2 behind</div>
+          </div>
+
+          <!-- SCHEDULE TIMELINE ITEMS -->
+          <div class="timeline-grid">
+            <div class="timeline-item is-behind">
+              <div class="timeline-icon-box">!</div>
+              <div class="timeline-content">
+                <div class="timeline-title-row">
+                  <span class="timeline-title">2-minute day review</span>
+                  <span class="timeline-time-state">11:00 AM Behind</span>
+                </div>
+                <p class="timeline-sub">By 11:00 AM · 2 min</p>
+              </div>
+            </div>
+
+            <div class="timeline-item is-behind">
+              <div class="timeline-icon-box">!</div>
+              <div class="timeline-content">
+                <div class="timeline-title-row">
+                  <span class="timeline-title">One focused work block</span>
+                  <span class="timeline-time-state">3:00 PM Behind</span>
+                </div>
+                <p class="timeline-sub">By 3:00 PM · 30 min</p>
+              </div>
+            </div>
+
+            <div class="timeline-item is-next">
+              <div class="timeline-icon-box">○</div>
+              <div class="timeline-content">
+                <div class="timeline-title-row">
+                  <span class="timeline-title">Plan today's top 3</span>
+                  <span class="timeline-time-state">7:00 PM Next</span>
+                </div>
+                <p class="timeline-sub">By 7:00 PM · 10 min</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- INTERACTIVE DEMO BANNER -->
+        <div class="demo-floating-banner">
+          <div class="banner-copy">
+            <button type="button" class="banner-speaker-btn" data-demo="voice" aria-label="Toggle spoken narration">
+              <svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4zM15 8a6 6 0 0 1 0 8M18 5a10 10 0 0 1 0 14"/></svg>
+            </button>
+            <span class="banner-caption-text">Watch the app in use. Press Play to begin, or skip.</span>
+          </div>
+          <button type="button" class="banner-try-btn" data-demo="try">Try it myself</button>
+        </div>
+
+        <!-- CARD 3: AVAILABLE TASKS LIST -->
+        <div class="tasks-container" id="dashboard-available-tasks">
+          
+          <article class="task-card" id="task_card_task_review">
+            <div class="task-details">
+              <h3 class="task-heading">2-minute day review</h3>
+              <p class="task-subtext">Mark what moved forward and decide the first action for tomorrow.</p>
+              <div class="task-badges-row">
+                <span class="task-tag priority">Priority #1</span>
+                <span class="task-tag">Starter</span>
+                <span class="task-tag">Daily</span>
+                <span class="task-tag xp">50 XP</span>
+                <span class="task-tag coins">5 coins</span>
+                <span class="task-tag">3 min</span>
+              </div>
+            </div>
+            <button type="button" class="btn-complete" data-task-action="task_review">
+              Complete →
+            </button>
+          </article>
+
+          <article class="task-card" id="task_card_task_block">
+            <div class="task-details">
+              <h3 class="task-heading">One focused work block</h3>
+              <p class="task-subtext">Give one important task 30 minutes of undivided attention.</p>
+              <div class="task-badges-row">
+                <span class="task-tag priority">Priority #2</span>
+                <span class="task-tag">Starter</span>
+                <span class="task-tag">Daily</span>
+                <span class="task-tag xp">200 XP</span>
+                <span class="task-tag coins">20 coins</span>
+                <span class="task-tag">30 min</span>
+              </div>
+            </div>
+            <button type="button" class="btn-complete" data-task-action="task_block">
+              Complete →
+            </button>
+          </article>
+
+          <article class="task-card" id="task_card_task_top3">
+            <div class="task-details">
+              <h3 class="task-heading">Plan today's top 3</h3>
+              <p class="task-subtext">Choose the three things that would make today feel genuinely productive.</p>
+              <div class="task-badges-row">
+                <span class="task-tag priority">Priority #3</span>
+                <span class="task-tag">Starter</span>
+                <span class="task-tag">Daily</span>
+                <span class="task-tag xp">100 XP</span>
+                <span class="task-tag coins">10 coins</span>
+                <span class="task-tag">10 min</span>
+              </div>
+            </div>
+            <button type="button" class="btn-complete" data-task-action="task_top3">
+              Complete →
+            </button>
+          </article>
+
+        </div>
+
+        <!-- + MORE TASK BUTTON -->
+        <button type="button" class="more-tasks-btn" data-open-add-task>
+          + More task
+        </button>
+
+      </section>
+
+      <!-- ======================================================================
+           VIEW PANEL: GROWTH (LEVEL PROGRESS & WORK INTELLIGENCE + AURA MATRIX)
+           ====================================================================== -->
+      <section class="view-panel" id="panel_growth">
+        <div id="growthWorkspace"></div>
+      </section>
+
+      <!-- ======================================================================
+           VIEW PANEL: WRITE UP & WAKE UP (DAILY REFLECTION & CIRCADIAN RHYTHM)
+           ====================================================================== -->
+      <section class="view-panel" id="panel_writeup">
+        <div class="highlight-card" style="margin-bottom: 20px;">
+          <div class="card-eyebrow">DAILY WRITE UP & REFLECTION</div>
+          <h2 class="highlight-title">Evening Review & Clarity Journal</h2>
+          <p class="highlight-desc">What moved forward today? A single high-impact focus for tomorrow compounds consistency.</p>
+          <div style="margin-top: 18px;">
+            <textarea class="form-input" id="journalTextInput" rows="4" placeholder="Write your thoughts, daily learnings, or key breakthroughs here..." style="width: 100%; border-radius: 14px; padding: 14px; background: rgba(5,13,24,0.8); border: 1px solid rgba(124,232,255,0.2); color: #fff; font-family: inherit; font-size: 13px; resize: vertical; box-sizing: border-box;"></textarea>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 10px; flex-wrap: wrap; gap: 10px;">
+              <span style="font-size: 11px; color: var(--px-text-secondary);">Reflection streak active · Earn +25 XP</span>
+              <button type="button" class="btn-primary" id="saveJournalBtn" style="padding: 8px 18px; border-radius: 10px; font-weight: 700;">Save Reflection</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="wake-clock-card">
+          <div class="analog-clock-wrap">
+            <div class="clock-center-dot"></div>
+            <div class="clock-hand hour"></div>
+            <div class="clock-hand minute"></div>
+            <div class="clock-hand second"></div>
+          </div>
+          <div>
+            <span class="card-eyebrow">CIRCADIAN RHYTHM</span>
+            <h2 class="highlight-title">Wake Schedule & Rhythm</h2>
+            <p class="highlight-desc">Daily consistency starts with when your feet touch the floor. Track your wake timing accuracy in real time.</p>
+            <div style="margin-top: 14px; font-size: 26px; font-weight: 800; color: #50e5ed;" data-wake-digital-time>07:00:00 AM</div>
+            <div style="font-size: 13px; color: var(--px-text-secondary); margin-top: 4px;">Timezone: Asia/Kolkata (IST)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================================
+           VIEW PANEL: IDENTITY (AVATAR VAULT & PROFILE)
+           ====================================================================== -->
+      <section class="view-panel" id="panel_identity">
+        <div class="highlight-card">
+          <div class="card-eyebrow">CHARACTER PROFILE & AVATAR VAULT</div>
+          <h2 class="highlight-title">Identity & Standing</h2>
+          <p class="highlight-desc">Your earned profile avatar, title rank, and character customization vault.</p>
+          
+          <div style="display: grid; grid-template-columns: minmax(280px, 1fr) minmax(280px, 1.2fr); gap: 24px; margin-top: 24px; align-items: start;">
+            <div class="avatar-artwork-frame" style="max-width: 320px; margin: 0 auto; border-radius: 18px; overflow: hidden; border: 1.5px solid rgba(103,232,249,0.35); box-shadow: 0 16px 40px rgba(0,0,0,0.6);">
+              <img src="assets/avatars/starter_avatar.jpg" alt="Equipped Anime Avatar" style="width: 100%; height: auto; display: block;" loading="eager">
+            </div>
+            <div>
+              <div style="padding: 20px; border-radius: 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(124,232,255,0.14); margin-bottom: 16px;">
+                <span style="font-size: 9px; font-weight: 900; letter-spacing: 0.12em; color: var(--px-cyan); text-transform: uppercase;">EQUIPPED AVATAR</span>
+                <h3 style="font-size: 22px; color: #fff; margin: 6px 0 3px;">Starter Level Avatar</h3>
+                <p style="font-size: 12px; color: var(--px-text-secondary); margin: 0 0 12px;">Male avatar set selected from anime collection · Shown from level 1 to 4</p>
+                <div style="display: flex; gap: 8px;">
+                  <span class="badge purple">Demon Slayer Collection</span>
+                  <span class="badge emerald">Level 1 Active</span>
+                </div>
+              </div>
+
+              <div style="padding: 20px; border-radius: 16px; background: rgba(255,255,255,0.03); border: 1px solid rgba(124,232,255,0.14);">
+                <h4 style="font-size: 14px; color: #fff; margin-bottom: 12px; font-weight: 800;">Anime Avatar Collection</h4>
+                <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px;">
+                  <div style="border: 2px solid var(--px-cyan); border-radius: 12px; padding: 6px; text-align: center; background: rgba(80,229,237,0.1); cursor: pointer;">
+                    <img src="assets/avatars/starter_avatar_thumb.jpg" style="width: 100%; border-radius: 8px; aspect-ratio: 1; object-fit: cover;">
+                    <span style="font-size: 9px; font-weight: 800; color: #fff; display: block; margin-top: 5px;">Water Hashira (Equipped)</span>
+                  </div>
+                  <div style="border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 6px; text-align: center; opacity: 0.6; cursor: pointer;">
+                    <div style="width: 100%; aspect-ratio: 1; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 24px;">🔒</div>
+                    <span style="font-size: 9px; font-weight: 700; color: var(--px-text-secondary); display: block; margin-top: 5px;">Cyber Ninja (Lv. 5)</span>
+                  </div>
+                  <div style="border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 6px; text-align: center; opacity: 0.6; cursor: pointer;">
+                    <div style="width: 100%; aspect-ratio: 1; border-radius: 8px; background: rgba(255,255,255,0.05); display: flex; align-items: center; justify-content: center; font-size: 24px;">🔒</div>
+                    <span style="font-size: 9px; font-weight: 700; color: var(--px-text-secondary); display: block; margin-top: 5px;">Shadow Titan (Lv. 10)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- APPLICATION EXTENDED MODULE PANELS -->
+      <section class="view-panel" id="panel_mission"><div id="missionWorkspace"></div></section>
+      <section class="view-panel" id="panel_habits"><div id="habitsWorkspace"></div></section>
+      <section class="view-panel" id="panel_shop"><div id="shopWorkspace"></div></section>
+      <section class="view-panel" id="panel_achievements"><div id="achievementsWorkspace"></div></section>
+      <section class="view-panel" id="panel_leaderboard"><div id="leaderboardWorkspace"></div></section>
+      <section class="view-panel" id="panel_library"><div id="libraryWorkspace"></div></section>
+      <section class="view-panel" id="panel_finance"><div id="financeWorkspace"></div></section>
+      <section class="view-panel" id="panel_community"><div id="communityWorkspace"></div></section>
+      <section class="view-panel" id="panel_admin"><div id="adminWorkspace"></div></section>
+
+    </main>
   </div>
 
-  <!-- Mobile Bottom Navigation Bar -->
-  <nav class="mobile-bottom-nav" id="mobileBottomNav">
-    <a href="#" class="mobile-nav-btn active" data-nav="dashboard">
-      <i>📊</i>
-      <span>Dashboard</span>
-    </a>
-    <a href="#" class="mobile-nav-btn" data-nav="mission">
-      <i>🎯</i>
-      <span>Missions</span>
-    </a>
-    <a href="#" class="mobile-nav-btn" data-nav="habits">
-      <i>⚡</i>
-      <span>Habits</span>
-    </a>
-    <a href="#" class="mobile-nav-btn" data-nav="shop">
-      <i>💎</i>
-      <span>Shop</span>
-    </a>
-    <a href="#" class="mobile-nav-btn" data-nav="achievements">
-      <i>🏆</i>
-      <span>Vault</span>
-    </a>
+  <!-- ==========================================================================
+       MOBILE BOTTOM NAVIGATION BAR
+       ========================================================================== -->
+  <nav class="mobile-bottom-nav">
+    <button type="button" class="rail-btn active" data-mobile-tab="home">
+      <svg viewBox="0 0 24 24"><path d="M4 11.2 12 4l8 7.2v8.3H14.7v-5.8H9.3v5.8H4z"/></svg>
+      <span>Home</span>
+    </button>
+    <button type="button" class="rail-btn" data-mobile-tab="growth">
+      <svg viewBox="0 0 24 24"><path d="M4 18 9 13l3 3 7-8"/><path d="M15 8h4v4"/></svg>
+      <span>Growth</span>
+    </button>
+    <button type="button" class="rail-btn quick-add-btn" data-open-add-task>
+      <svg viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+      <span>Add</span>
+    </button>
+    <button type="button" class="rail-btn" data-mobile-tab="writeup">
+      <svg viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      <span>Write Up</span>
+    </button>
+    <button type="button" class="rail-btn" data-mobile-tab="identity">
+      <svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.2"/><path d="M5.2 20c.8-4 3-6 6.8-6s6 2 6.8 6"/></svg>
+      <span>Identity</span>
+    </button>
   </nav>
 
-  <!-- Global Footer Credit (As Extracted from Source) -->
-  <footer class="app-creator-footer">
-    Progress XP • Created by Abdul Cizen Siddiqui • Reverse Engineered with REA & GhidraMCP
-  </footer>
+  <!-- ==========================================================================
+       SLIDING NAVIGATION DRAWER MENU
+       ========================================================================== -->
+  <div class="drawer-backdrop" id="appDrawerBackdrop">
+    <div class="app-drawer" id="appDrawer">
+      <div class="drawer-head">
+        <h3><span>⚡</span> Progress XP Navigation</h3>
+        <button type="button" class="drawer-close-btn" id="drawerCloseBtn" aria-label="Close menu">✕</button>
+      </div>
+      <nav class="drawer-nav-list">
+        <a href="#" class="drawer-nav-item active" data-drawer-nav="home"><i>📊</i><span>Home Dashboard</span></a>
+        <a href="#" class="drawer-nav-item" data-drawer-nav="growth"><i>📈</i><span>Level & Work Intelligence</span></a>
+        <a href="#" class="drawer-nav-item" data-drawer-nav="mission"><i>🎯</i><span>Daily Missions & Quests</span></a>
+        <a href="#" class="drawer-nav-item" data-drawer-nav="habits"><i>⚡</i><span>Habits Consistency Matrix</span></a>
+        <a href="#" class="drawer-nav-item" data-drawer-nav="shop"><i>💎</i><span>Reward Vault & XP Shop</span></a>
+        <a href="#" class="drawer-nav-item" data-drawer-nav="achievements"><i>🏆</i><span>Achievement Vault</span></a>
+        <a href="#" class="drawer-nav-item" data-drawer-nav="leaderboard"><i>🔥</i><span>Global Leaderboard</span></a>
+        <a href="#" class="drawer-nav-item" data-drawer-nav="library"><i>📚</i><span>Growth Library</span></a>
+        <a href="#" class="drawer-nav-item" data-drawer-nav="finance"><i>💰</i><span>Personal Finance</span></a>
+        <a href="#" class="drawer-nav-item" data-drawer-nav="community"><i>💬</i><span>Community Discussion Hub</span></a>
+        <a href="#" class="drawer-nav-item" data-drawer-nav="writeup"><i>✍️</i><span>Daily Write Up & Journal</span></a>
+        <a href="#" class="drawer-nav-item" data-drawer-nav="identity"><i>👤</i><span>Profile & Avatar Vault</span></a>
+      </nav>
+      <div class="drawer-footer">
+        <span>Build v17.10.419-live</span>
+        <span>Abdul Cizen Siddiqui</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       QUICK ADD TASK MODAL
+       ========================================================================== -->
+  <div class="modal-overlay" id="quickAddModal">
+    <div class="modal-box">
+      <div class="modal-head">
+        <div>
+          <small>QUICK ADD · TASK</small>
+          <h3>Add a task</h3>
+        </div>
+        <button type="button" class="modal-close-btn" data-close-modal aria-label="Close modal">×</button>
+      </div>
+      <form id="quickAddForm">
+        <div class="form-group">
+          <label for="taskTitleInput">Task name</label>
+          <input type="text" id="taskTitleInput" class="form-input" placeholder="What do you want to get done?" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="taskDurationSelect">Estimated duration</label>
+          <select id="taskDurationSelect" class="form-select">
+            <option value="15">15 minutes (Quick sprint)</option>
+            <option value="30" selected>30 minutes (Standard block)</option>
+            <option value="45">45 minutes (Deep work)</option>
+            <option value="60">60 minutes (Intense session)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="taskCategorySelect">Category</label>
+          <select id="taskCategorySelect" class="form-select">
+            <option value="Personal" selected>Personal</option>
+            <option value="Work">Work</option>
+            <option value="Health">Health</option>
+            <option value="Learning">Learning</option>
+          </select>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn-secondary" data-close-modal>Cancel</button>
+          <button type="submit" class="btn-primary">Add task</button>
+        </div>
+      </form>
+    </div>
+  </div>
 
   <!-- Modular Scripts -->
+  <script src="js/components/sound-engine.js"></script>
   <script src="js/store.js"></script>
-  <script src="js/components/audio.js"></script>
-  <script src="js/components/nav.js"></script>
-  <script src="js/components/auth.js"></script>
-  <script src="js/components/dashboard.js"></script>
-  <script src="js/components/habits.js"></script>
+  <script src="js/components/growth.js"></script>
   <script src="js/components/missions.js"></script>
+  <script src="js/components/habits.js"></script>
   <script src="js/components/shop.js"></script>
   <script src="js/components/achievements.js"></script>
   <script src="js/components/leaderboard.js"></script>
@@ -96,8 +573,8 @@
   <script src="js/components/finance.js"></script>
   <script src="js/components/community.js"></script>
   <script src="js/components/admin.js"></script>
-  <script src="js/components/aura.js"></script>
   <script src="js/components/avatars.js"></script>
+  <script src="js/components/tour-player.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>

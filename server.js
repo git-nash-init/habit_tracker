@@ -1,7 +1,6 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const url = require('url');
 
 const PORT = parseInt(process.env.PORT, 10) || 3030;
 const PUBLIC_DIR = path.join(__dirname, 'public');
@@ -20,14 +19,21 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer((req, res) => {
-  const parsedUrl = url.parse(req.url, true);
-  let pathname = parsedUrl.pathname;
+  const reqUrl = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
+  let pathname = reqUrl.pathname;
 
-  // Handle API requests
-  if (parsedUrl.query && parsedUrl.query.api) {
-    const apiName = parsedUrl.query.api;
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify({ ok: true, api: apiName, timestamp: Date.now() }));
+  // Handle mock API requests
+  if (reqUrl.searchParams.has('api')) {
+    const apiName = reqUrl.searchParams.get('api');
+    res.writeHead(200, { 
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Origin': '*'
+    });
+    res.end(JSON.stringify({ 
+      ok: true, 
+      api: apiName, 
+      timestamp: Date.now() 
+    }));
     return;
   }
 
@@ -38,7 +44,7 @@ const server = http.createServer((req, res) => {
 
   const filePath = path.join(PUBLIC_DIR, pathname);
 
-  // Security check
+  // Security check to prevent directory traversal
   if (!filePath.startsWith(PUBLIC_DIR)) {
     res.writeHead(403);
     res.end('Forbidden');
@@ -47,7 +53,7 @@ const server = http.createServer((req, res) => {
 
   fs.stat(filePath, (err, stats) => {
     if (err || !stats.isFile()) {
-      // Fallback to index.html for SPA
+      // Fallback to index.html for SPA client-side routes
       const indexPath = path.join(PUBLIC_DIR, 'index.html');
       fs.readFile(indexPath, (readErr, content) => {
         if (readErr) {
